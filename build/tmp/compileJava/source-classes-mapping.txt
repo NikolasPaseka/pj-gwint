@@ -1,0 +1,28 @@
+cz/mendelu/xpaseka/pj/projekt/cards/TypeOfCard.java
+ cz.mendelu.xpaseka.pj.projekt.cards.TypeOfCard
+cz/mendelu/xpaseka/pj/projekt/cards/WeatherType.java
+ cz.mendelu.xpaseka.pj.projekt.cards.WeatherType
+cz/mendelu/xpaseka/pj/projekt/cards/WeatherCard.java
+ cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard
+cz/mendelu/xpaseka/pj/projekt/cards/Card.java
+ cz.mendelu.xpaseka.pj.projekt.cards.Card
+cz/mendelu/xpaseka/pj/projekt/Board.java
+ cz.mendelu.xpaseka.pj.projekt.Board
+cz/mendelu/xpaseka/pj/projekt/cards/MusterCard.java
+ cz.mendelu.xpaseka.pj.projekt.cards.MusterCard
+cz/mendelu/xpaseka/pj/projekt/CombatBoard.java
+ cz.mendelu.xpaseka.pj.projekt.CombatBoard
+cz/mendelu/xpaseka/pj/projekt/factions/Faction.java
+ cz.mendelu.xpaseka.pj.projekt.factions.Faction
+cz/mendelu/xpaseka/pj/projekt/cards/HornCard.java
+ cz.mendelu.xpaseka.pj.projekt.cards.HornCard
+cz/mendelu/xpaseka/pj/projekt/cards/SpyCard.java
+ cz.mendelu.xpaseka.pj.projekt.cards.SpyCard
+cz/mendelu/xpaseka/pj/projekt/Player.java
+ cz.mendelu.xpaseka.pj.projekt.Player
+cz/mendelu/xpaseka/pj/projekt/Game.java
+ cz.mendelu.xpaseka.pj.projekt.Game
+cz/mendelu/xpaseka/pj/projekt/cards/UnitCard.java
+ cz.mendelu.xpaseka.pj.projekt.cards.UnitCard
+cz/mendelu/xpaseka/pj/projekt/factions/Scoiatel.java
+ cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel
