@@ -1,10 +1,7 @@
 package cz.mendelu.xpaseka.pj.projekt.cards;
 
-import cz.mendelu.xpaseka.pj.projekt.Board;
 import cz.mendelu.xpaseka.pj.projekt.Game;
-import cz.mendelu.xpaseka.pj.projekt.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MusterCard extends UnitCard {
@@ -12,6 +9,14 @@ public class MusterCard extends UnitCard {
         super(type, power, name);
     }
 
+    /**
+     * Přidá kartu jednotky na hráčovu hrací desku a použije efekt MusterCard
+     * Efekt MusterCard nalezne všechny stejné jednotky v odkládacím báličku hráče a vyloží na stůl
+     *
+     *
+     * @author xpaseka
+     * @version etapa 2
+     */
     public void applyCard() {
         System.out.println("Playing Muster card");
         Game.getPlayer().addCardToCombatBoard(this);

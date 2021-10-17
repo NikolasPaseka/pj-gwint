@@ -1,8 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt.cards;
 
-import cz.mendelu.xpaseka.pj.projekt.Board;
 import cz.mendelu.xpaseka.pj.projekt.Game;
-import cz.mendelu.xpaseka.pj.projekt.Player;
 
 public class HornCard extends Card {
     public HornCard() {

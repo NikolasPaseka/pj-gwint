@@ -4,15 +4,25 @@ import cz.mendelu.xpaseka.pj.projekt.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;
-public class Board {
+public class WeatherBoard {
     private static List<WeatherCard> weatherCards = new ArrayList<>();
 
+    /**
+     * Metoda pro pridani Karty pocasi na hraci desku
+     * Metoda na zaklade typu pocasi zavola prislusnou private metodu
+     * Karta Rain - vsem kartam typu Long Range nastavi silu karty na 1
+     * Karta Frost - vsem kartam typu Close Combat nastavi silu karty na 1
+     * Karta Fog - vsem kartam typu Siege nastavi silu karty na 1
+     * Karta Sun - odebere vsechny karty pocasi z hraci desky
+     *
+     * @param card karta pocasi predana od hrace
+     *
+     * @author xpaseka
+     * @version etapa 2
+     */
     public static void addWeatherCard(WeatherCard card) {
         weatherCards.add(card);
-        applyWeatherEffect(card);
-    }
 
-    private static void applyWeatherEffect(WeatherCard card) {
         if (card.getWeatherType() == WeatherType.RAIN) {
             System.out.println("Applying Rain card");
             applyRainEffect();

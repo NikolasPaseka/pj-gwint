@@ -1,20 +1,34 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
-import cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel;
 
-import java.util.Scanner;
+import java.util.List;
 
 public class Game {
-    private static Player player1 = new Player();
-    private static Player player2 = new Player();
+    private static Player player = new Player();
+    private static Player opponent = new Player();
 
     public static Player getPlayer() {
-        return player1;
+        return player;
     }
 
     public static Player getOpponent() {
-        return player2;
+        return opponent;
+    }
+
+    public static void startNewRound(){}
+
+    /**
+     * Metoda, která vytvoří odkládací balíček dle požadavků a vrátí
+     * Odkládací balíček musí obsahovat alespon 22 karet
+     *
+     * @return List karet - odkládací balíček hráče
+     *
+     * @author xpaseka
+     * @version etapa 2
+     */
+    public static List<Card> buildDeck(){
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     public static void main(String[] args) {
@@ -25,33 +39,33 @@ public class Game {
         Card spy = new SpyCard(TypeOfCard.LONG_RANGE, 2, "Djisktra");
         Card horn = new HornCard();
 
-        player1.addCardToHand(ciri);
-        player1.addCardToDeck(siege);
-        player1.addCardToDeck(yennefer);
-        player1.addCardToHand(spy);
-        player1.addCardToDeck(horn);
-        player1.addCardToHand(new MusterCard(TypeOfCard.LONG_RANGE, 5, "Arachas"));
-        player1.addCardToDeck(new MusterCard(TypeOfCard.LONG_RANGE, 5, "Arachas"));
-        player1.addCardToDeck(new MusterCard(TypeOfCard.LONG_RANGE, 5, "Arachas"));
+        player.addCardToHand(ciri);
+        player.addCardToDeck(siege);
+        player.addCardToDeck(yennefer);
+        player.addCardToHand(spy);
+        player.addCardToDeck(horn);
+        player.addCardToHand(new MusterCard(TypeOfCard.LONG_RANGE, 5, "Arachas"));
+        player.addCardToDeck(new MusterCard(TypeOfCard.LONG_RANGE, 5, "Arachas"));
+        player.addCardToDeck(new MusterCard(TypeOfCard.LONG_RANGE, 5, "Arachas"));
 
-        player1.addCardToHand(new WeatherCard("Rain", WeatherType.RAIN));
+        player.addCardToHand(new WeatherCard("Rain", WeatherType.RAIN));
 
-        player1.useFactionAbility();
-        player1.playCard(1);
-        player1.printHand();
-        player1.printDeck();
-        player1.playCard(1);
-        player1.playCard(1);
+        player.useFactionAbility();
+        player.playCard(1);
+        player.printHand();
+        player.printDeck();
+        player.playCard(1);
+        player.playCard(1);
 
-        System.out.println("Total Friendly score: " + player1.getCombatBoard().getTotalScore());
-        System.out.println("Total Enemy score: " + player2.getCombatBoard().getTotalScore());
+        System.out.println("Total Friendly score: " + player.getCombatBoard().getTotalScore());
+        System.out.println("Total Enemy score: " + opponent.getCombatBoard().getTotalScore());
 
-        player1.addCardToHand(new WeatherCard("Sun", WeatherType.SUN));
-        player1.printHand();
-        player1.playCard(2);
+        player.addCardToHand(new WeatherCard("Sun", WeatherType.SUN));
+        player.printHand();
+        player.playCard(2);
 
 
-        System.out.println("Total Friendly score: " + player1.getCombatBoard().getTotalScore());
-        System.out.println("Total Enemy score: " + player2.getCombatBoard().getTotalScore());
+        System.out.println("Total Friendly score: " + player.getCombatBoard().getTotalScore());
+        System.out.println("Total Enemy score: " + opponent.getCombatBoard().getTotalScore());
     }
 }

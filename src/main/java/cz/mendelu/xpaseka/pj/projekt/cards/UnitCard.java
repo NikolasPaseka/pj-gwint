@@ -11,6 +11,7 @@ public class UnitCard extends Card {
         super(name);
         this.type = type;
         this.power = power;
+        currentPower = power;
     }
 
     public int getCurrentPower() {
@@ -30,7 +31,7 @@ public class UnitCard extends Card {
     }
 
     public void applyCard() {
-        System.out.println("Unit");
+        System.out.println(name);
         Game.getPlayer().addCardToCombatBoard(this);
     }
 }

@@ -1,6 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt.cards;
 
-import cz.mendelu.xpaseka.pj.projekt.Board;
+import cz.mendelu.xpaseka.pj.projekt.WeatherBoard;
 
 public class WeatherCard extends Card {
     WeatherType weatherType;
@@ -10,7 +10,7 @@ public class WeatherCard extends Card {
     }
 
     public void applyCard() {
-        Board.addWeatherCard(this);
+        WeatherBoard.addWeatherCard(this);
     }
 
     public WeatherType getWeatherType() {

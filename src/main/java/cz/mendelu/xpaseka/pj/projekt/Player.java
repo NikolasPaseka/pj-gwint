@@ -81,7 +81,19 @@ public class Player {
         return combatBoard;
     }
 
+    public void setDeck(List<Card> deck) {
+        this.deck = deck;
+    }
+
     public List<Card> getDeck() {
         return deck;
+    }
+
+    public List<Card> getHand() {
+        return hand;
+    }
+
+    public int getTotalScore() {
+        return combatBoard.getTotalScore();
     }
 }
