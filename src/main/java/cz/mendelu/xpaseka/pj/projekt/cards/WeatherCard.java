@@ -1,14 +1,32 @@
 package cz.mendelu.xpaseka.pj.projekt.cards;
 
 import cz.mendelu.xpaseka.pj.projekt.WeatherBoard;
+import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.WeatherType;
+
+import java.util.Objects;
 
 public class WeatherCard extends Card {
     WeatherType weatherType;
-    public WeatherCard(String name, WeatherType weatherType) {
-        super(name);
+
+    public WeatherCard(WeatherType weatherType) {
+        super(weatherType.name());
         this.weatherType = weatherType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WeatherCard that = (WeatherCard) o;
+        return weatherType == that.weatherType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(weatherType);
+    }
+
+    @Override
     public void applyCard() {
         WeatherBoard.addWeatherCard(this);
     }

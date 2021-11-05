@@ -1,89 +1,82 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
-import cz.mendelu.xpaseka.pj.projekt.cards.Card;
 import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.TypeOfCard;
+import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CombatBoard {
-    private List<UnitCard> closeCombatRow;
-    private List<UnitCard> longRangeRow;
-    private List<UnitCard> siegeRow;
-    private HornCard closeCombatRowHorn;
-    private HornCard longRangeRowHorn;
-    private HornCard siegeRowHorn;
-    private int closeCombatScore = 0;
-    private int longRangeScore = 0;
-    private int siegeScore = 0;
+    /**
+     * @author xpaseka
+     * @version etapa 3
+     */
+    private HashMap<UnitType, List<UnitCard>> unitCards = new HashMap<>();
+    private HashMap<UnitType, HornCard> hornCards = new HashMap<>();
 
     CombatBoard() {
-        closeCombatRow = new ArrayList<>();
-        longRangeRow = new ArrayList<>();
-        siegeRow = new ArrayList<>();
-        closeCombatRowHorn = null;
-        longRangeRowHorn = null;
-        siegeRowHorn = null;
+        unitCards.put(UnitType.CLOSE_COMBAT, new ArrayList<>());
+        unitCards.put(UnitType.LONG_RANGE, new ArrayList<>());
+        unitCards.put(UnitType.SIEGE, new ArrayList<>());
+        hornCards.put(UnitType.CLOSE_COMBAT, null);
+        hornCards.put(UnitType.LONG_RANGE, null);
+        hornCards.put(UnitType.SIEGE, null);
     }
 
+    /**
+     * Metoda prida kartu do prislusneho pole CombatBoard
+     * Atribut karty type urcuje klic mapy
+     *
+     * @param card - predana karta pro vlozeni na CombatBoard
+     *
+     * @author xpaseka
+     * @version etapa 3
+     */
     public void addCard(UnitCard card) {
-        if (card.getType() == TypeOfCard.CLOSE_COMBAT) {
-            closeCombatRow.add(card);
-            closeCombatScore += card.getCurrentPower();
-        } else if (card.getType() == TypeOfCard.LONG_RANGE) {
-            longRangeRow.add(card);
-            longRangeScore += card.getCurrentPower();
-        } else if (card.getType() == TypeOfCard.SIEGE) {
-            siegeRow.add(card);
-            siegeScore += card.getCurrentPower();
+        List<UnitCard> cards = unitCards.get(card.getType());
+        cards.add(card);
+        unitCards.put(card.getType(), cards);
+    }
+
+    public void addHornCard(UnitType type, HornCard horn) {
+        if (hornCards.get(type) != null) {
+            hornCards.put(type, horn);
         }
     }
 
-    public void addHornCard(HornCard horn) {
-        if (closeCombatRowHorn == null) {
-            closeCombatRowHorn = horn;
-            closeCombatScore *= 2;
-        } else if (longRangeRowHorn == null) {
-            longRangeRowHorn = horn;
-            longRangeScore *= 2;
-        } else if (siegeRowHorn == null) {
-            siegeRowHorn = horn;
-            longRangeScore *= 2;
-        }
+    /**
+     *
+     * @param type - typ jednotek ktere chci ziskat
+     * @return List pozadovanych jednotek
+     *
+     * @author xpaseka
+     * @version etapa 3
+     */
+    public List<UnitCard> getRow(UnitType type) {
+        return unitCards.get(type);
     }
 
-    public void changeCardsPower(TypeOfCard type, int power) {
-        if (type == TypeOfCard.LONG_RANGE) {
-            for (UnitCard card: longRangeRow) {
-                card.setCurrentPower(power);
-            }
-        }
+    public HashMap<UnitType, List<UnitCard>> getAllUnits() {
+        return unitCards;
     }
 
-    public void resetCurrentPower() {
-        for (UnitCard card: closeCombatRow) {
-            card.resetCurrentPower();
-        }
-        for (UnitCard card: longRangeRow) {
-            card.resetCurrentPower();
-        }
-        for (UnitCard card: siegeRow) {
-            card.resetCurrentPower();
-        }
-    }
-
+    /**
+     * Metoda projizdi vsechny karty vylozene mapy - jednotlive klice a seznam karet
+     * Skore se pocita z aktualni sily karty krat multiplikator z efektu karet
+     *
+     * @return celkove skore, ktere hrac dosahuje
+     *
+     * @author xpaseka
+     * @version etapa 3
+     */
     public int getTotalScore() {
         int score = 0;
-        for (UnitCard card: closeCombatRow) {
-            score += card.getCurrentPower();
-        }
-        for (UnitCard card: longRangeRow) {
-            score += card.getCurrentPower();
-        }
-        for (UnitCard card: siegeRow) {
-            score += card.getCurrentPower();
+        for (List<UnitCard> cards : unitCards.values()) {
+            for (UnitCard card : cards) {
+                score += card.getCurrentPower() * card.getPowerMultiplicator();
+            }
         }
         return score;
     }

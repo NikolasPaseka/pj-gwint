@@ -4,31 +4,52 @@ import cz.mendelu.xpaseka.pj.projekt.cards.Card;
 import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.factions.Faction;
-import cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Player {
+    private String name;
     private int lifes;
     private int score;
-    private List<Card> hand;
-    private List<Card> deck;
+    private List<Card> hand = new ArrayList<>();
+    private List<Card> deck = new ArrayList<>();
+    private List<Card> discardPile = new ArrayList<>();
     private Faction faction;
     private CombatBoard combatBoard;
 
-    Player() {
-        lifes = 2;
-        score = 0;
-        hand = new ArrayList<>();
-        deck = new ArrayList<>();
-        chooseFaction();
-        combatBoard = new CombatBoard();
+    Player(String name) {
+        this.name = name;
+        this.lifes = 2;
+        this.score = 0;
+        this.combatBoard = new CombatBoard();
     }
 
-    private void chooseFaction() {
-        faction = new Scoiatel(this);
+    /**
+     * @author xpaseka
+     * @version etapa 3
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return lifes == player.lifes && score == player.score && name.equals(player.name) && faction.equals(player.faction);
+    }
+
+    /**
+     * @author xpaseka
+     * @version etapa 3
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, lifes, score, faction);
+    }
+
+    public void setFaction(Faction faction) {
+        this.faction = faction;
     }
 
     public void addCardToHand(Card card) {
@@ -47,24 +68,6 @@ public class Player {
         hand.add(deck.remove(deck.size()-1));
     }
 
-    private void printCards(List<Card> cards) {
-        int i = 0;
-        for (Card card: cards) {
-            System.out.println(i++ + " " + card.getName());
-        }
-    }
-
-    public void printHand() {
-        System.out.println("Hand:");
-        printCards(hand);
-    }
-
-    public void printDeck() {
-        System.out.println("Deck:");
-        printCards(deck);
-    }
-
-
     public void playCard(int index) {
         hand.remove(index).applyCard();
     }
@@ -73,8 +76,12 @@ public class Player {
         faction.applyAbility();
     }
 
+    public Faction getFaction() {
+        return faction;
+    }
+
     public void addHorn(HornCard horn) {
-        combatBoard.addHornCard(horn);
+//        combatBoard.addHornCard(horn);
     }
 
     public CombatBoard getCombatBoard() {
@@ -91,6 +98,10 @@ public class Player {
 
     public List<Card> getHand() {
         return hand;
+    }
+
+    public List<Card> getDiscardPile() {
+        return discardPile;
     }
 
     public int getTotalScore() {

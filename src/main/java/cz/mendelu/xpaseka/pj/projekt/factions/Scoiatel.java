@@ -6,6 +6,7 @@ public class Scoiatel extends Faction {
 
     public Scoiatel(Player player) {
         super(player);
+        name = "Scoiatel";
     }
 
     public void applyEffect() {

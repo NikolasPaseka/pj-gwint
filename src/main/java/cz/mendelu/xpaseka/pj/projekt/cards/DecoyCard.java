@@ -2,9 +2,9 @@ package cz.mendelu.xpaseka.pj.projekt.cards;
 
 import cz.mendelu.xpaseka.pj.projekt.Game;
 
-public class HornCard extends Card {
-    public HornCard() {
-        super("Horn");
+public class DecoyCard extends Card {
+    public DecoyCard() {
+        super("Decoy");
     }
 
     public void applyCard() {

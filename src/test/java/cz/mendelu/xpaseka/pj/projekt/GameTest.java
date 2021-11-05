@@ -1,9 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
-import cz.mendelu.xpaseka.pj.projekt.cards.TypeOfCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.WeatherType;
+import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,11 +24,13 @@ class GameTest {
     @Test
     void buildDeck() {
         // setup
+        Game.createNewGame();
         Player player = Game.getPlayer();
+        player.setFaction(new NorthEmpire(player));
         int minDeckSize = 22;
 
         //when
-        player.setDeck(Game.buildDeck());
+        player.setDeck(Game.buildDeck(player));
 
         // then
         assertNotNull(player.getDeck());
@@ -45,12 +44,14 @@ class GameTest {
     @Test
     void buildDeck_fail() {
         // setup
+        Game.createNewGame();
         Player player = Game.getPlayer();
 
         //when
-        player.setDeck(Game.buildDeck());
+        player.setDeck(Game.buildDeck(player));
+        int expectedSize = 0;
 
         // then
-        assertNull(player.getDeck());
+        assertEquals(expectedSize, player.getDeck().size());
     }
 }

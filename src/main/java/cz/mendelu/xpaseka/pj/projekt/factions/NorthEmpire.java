@@ -1,11 +1,15 @@
 package cz.mendelu.xpaseka.pj.projekt.factions;
 
 import cz.mendelu.xpaseka.pj.projekt.Player;
+import cz.mendelu.xpaseka.pj.projekt.cards.Card;
+
+import java.util.List;
 
 public class NorthEmpire extends Faction {
 
-    public NorthEmpire(Player player) {
+    public NorthEmpire(Player player)  {
         super(player);
+        name = "North Empire";
     }
 
     /**
@@ -14,12 +18,18 @@ public class NorthEmpire extends Faction {
      *
      * @author xpaseka
      * @version etapa 2
+     * @version etapa 3
      */
+    @Override
     public void applyEffect() {
-        System.out.println("Draw a card if you win a round");
+        List<Card> deck = player.getDeck();
+        int deckSize = deck.size();
+        Card card = deck.remove(deckSize-1);
+        player.addCardToHand(card);
     }
 
+    @Override
     public void applyAbility() {
-        System.out.println("Destroy your enemy's strongest Ranged Combat unit(s) if the combined strength of all his or her Ranged Combat units is 10 or more");
+        // TODO
     }
 }

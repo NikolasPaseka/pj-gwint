@@ -1,6 +1,10 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
+import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.FactionType;
+import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
+import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.WeatherType;
+import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,13 +28,14 @@ class WeatherBoardTest {
     @Test
     void addWeatherCard_Rain() {
         // setup
+        Game.createNewGame();
         Player player = Game.getPlayer();
 
-        UnitCard yennefer = new UnitCard(TypeOfCard.LONG_RANGE, 8, "Yen");
+        UnitCard yennefer = new UnitCard(UnitType.LONG_RANGE, 8, "Yen", FactionType.NILFGAARDIAN_EMPIRE, true);
         yennefer.applyCard();
         int expectedPower = 1;
 
-        WeatherCard rainCard = new WeatherCard("Torrential Rain", WeatherType.RAIN);
+        WeatherCard rainCard = new WeatherCard(WeatherType.RAIN);
 
         // when
         WeatherBoard.addWeatherCard(rainCard);
@@ -46,19 +51,20 @@ class WeatherBoardTest {
     @Test
     void addWeatherCard_Sun() {
         // setup
+        Game.createNewGame();
         Player player = Game.getPlayer();
 
-        UnitCard ciri = new UnitCard(TypeOfCard.CLOSE_COMBAT, 9, "Ciri");
-        UnitCard cynthia = new UnitCard(TypeOfCard.LONG_RANGE, 7, "cynthia");
-        UnitCard elemental = new UnitCard(TypeOfCard.SIEGE, 6, "Earth elemental");
+        UnitCard ciri = new UnitCard(UnitType.CLOSE_COMBAT, 9, "Ciri", FactionType.NEUTRAL, true);
+        UnitCard cynthia = new UnitCard(UnitType.LONG_RANGE, 7, "Cynthia", FactionType.NORTH_EMPIRE,false);
+        UnitCard elemental = new UnitCard(UnitType.SIEGE, 6, "Earth elemental", FactionType.MONSTERS,false);
 
         ciri.applyCard();
         cynthia.applyCard();
         elemental.applyCard();
 
-        WeatherCard rainCard = new WeatherCard("Rain", WeatherType.RAIN);
-        WeatherCard sunCard = new WeatherCard("Clear Weather", WeatherType.SUN);
-        WeatherCard fogCard = new WeatherCard("Impenetrable Fog", WeatherType.FOG);
+        WeatherCard rainCard = new WeatherCard(WeatherType.RAIN);
+        WeatherCard sunCard = new WeatherCard(WeatherType.SUN);
+        WeatherCard fogCard = new WeatherCard(WeatherType.FOG);
 
         int expectedPower = 22;
 
