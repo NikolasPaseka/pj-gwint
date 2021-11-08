@@ -1,20 +1,22 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
 import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
+import cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CombatBoard {
     /**
      * @author xpaseka
      * @version etapa 3
      */
-    private HashMap<UnitType, List<UnitCard>> unitCards = new HashMap<>();
-    private HashMap<UnitType, HornCard> hornCards = new HashMap<>();
+    private Map<UnitType, List<UnitCard>> unitCards = new HashMap<>();
+    private Map<UnitType, HornCard> hornCards = new HashMap<>();
 
     CombatBoard() {
         unitCards.put(UnitType.CLOSE_COMBAT, new ArrayList<>());
@@ -38,11 +40,26 @@ public class CombatBoard {
         List<UnitCard> cards = unitCards.get(card.getType());
         cards.add(card);
         unitCards.put(card.getType(), cards);
+        WeatherBoard.reapplyWeatherEffects();
+        applyHorn();
     }
 
-    public void addHornCard(UnitType type, HornCard horn) {
-        if (hornCards.get(type) != null) {
-            hornCards.put(type, horn);
+    public void addHornCard(UnitType unitType, HornCard horn) {
+        hornCards.putIfAbsent(unitType, horn);
+        applyHorn();
+    }
+
+    private void applyHorn() {
+        for (var unitType : hornCards.keySet()) {
+            var hornCard = hornCards.get(unitType);
+            if (hornCard != null) {
+                var cards = unitCards.get(unitType);
+                for (UnitCard card : cards) {
+                    if (!card.isHero()) {
+                        card.setPowerMultiplicator(2);
+                    }
+                }
+            }
         }
     }
 
@@ -58,7 +75,7 @@ public class CombatBoard {
         return unitCards.get(type);
     }
 
-    public HashMap<UnitType, List<UnitCard>> getAllUnits() {
+    public Map<UnitType, List<UnitCard>> getAllUnits() {
         return unitCards;
     }
 

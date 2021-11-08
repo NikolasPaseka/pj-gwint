@@ -18,7 +18,7 @@ public class NeutralCardFactory implements CardFactory {
         List<Card> neutralCards = new ArrayList<>();
 
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 15, "Geralt of Rivia", FactionType.NEUTRAL,true));
-        neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 15, "Cirilla Fiona Elen Rianno", FactionType.NEUTRAL,true));
+        neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 15, "Cirilla Fiona Elen Riannon", FactionType.NEUTRAL,true));
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 6, "Vesemir", FactionType.NEUTRAL,false));
         neutralCards.add(new MedicCard(UnitType.LONG_RANGE, 7, "Yennefer of Vengerberg", FactionType.NEUTRAL,true));
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 7, "Triss Merigold", FactionType.NEUTRAL,true));
@@ -26,7 +26,7 @@ public class NeutralCardFactory implements CardFactory {
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 5, "Zoltan Chivay", FactionType.NEUTRAL,false));
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 5, "Emiel Regis Rohellec Terzieff", FactionType.NEUTRAL,false));
         neutralCards.add(new ScorchCard(UnitType.CLOSE_COMBAT, 7, "Villentretenmerth", FactionType.NEUTRAL,false));
-        neutralCards.add(new SpyCard(UnitType.CLOSE_COMBAT, 0, "Avallac’h", FactionType.NEUTRAL,true));
+        neutralCards.add(new SpyCard(UnitType.CLOSE_COMBAT, 0, "Avallach", FactionType.NEUTRAL,true));
 
         return neutralCards;
     }

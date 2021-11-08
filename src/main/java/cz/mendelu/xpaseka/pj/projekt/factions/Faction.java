@@ -18,5 +18,4 @@ public abstract class Faction {
     }
 
     public abstract void applyEffect();
-    public abstract void applyAbility();
 }

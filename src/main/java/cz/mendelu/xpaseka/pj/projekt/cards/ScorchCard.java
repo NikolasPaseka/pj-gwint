@@ -5,6 +5,7 @@ import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.FactionType;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 
 import java.util.List;
+import java.util.ListIterator;
 
 public class ScorchCard extends UnitCard {
     public ScorchCard(UnitType type, int power, String name, FactionType faction, boolean hero) {
@@ -32,11 +33,16 @@ public class ScorchCard extends UnitCard {
         }
 
         for (List<UnitCard> cards : opponentCards.values()) {
-            for (int i = 0; i < cards.size(); i++) {
-                if (cards.get(i).getCurrentPower() == maxPower) {
-                    cards.remove(i);
+            ListIterator<UnitCard> iterator = cards.listIterator();
+            while (iterator.hasNext()) {
+                var card = iterator.next();
+                if (card.getCurrentPower() == maxPower) {
+                    Game.getOpponent().addCardToDiscardPile(card);
+                    iterator.remove();
                 }
             }
         }
+
+        System.out.println("discard " + Game.getOpponent().getDiscardPile().size());
     }
 }

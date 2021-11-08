@@ -27,9 +27,4 @@ public class NorthEmpire extends Faction {
         Card card = deck.remove(deckSize-1);
         player.addCardToHand(card);
     }
-
-    @Override
-    public void applyAbility() {
-        // TODO
-    }
 }

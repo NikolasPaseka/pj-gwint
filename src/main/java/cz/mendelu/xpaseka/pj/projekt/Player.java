@@ -5,9 +5,7 @@ import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.factions.Faction;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Player {
@@ -60,6 +58,13 @@ public class Player {
         deck.add(card);
     }
 
+    public void addCardToDiscardPile(Card card) {
+        if (card instanceof UnitCard) {
+            ((UnitCard) card).resetCurrentPower();
+        }
+        discardPile.add(card);
+    }
+
     public void addCardToCombatBoard(UnitCard card) {
         combatBoard.addCard(card);
     }
@@ -73,7 +78,7 @@ public class Player {
     }
 
     public void useFactionAbility() {
-        faction.applyAbility();
+        faction.applyEffect();
     }
 
     public Faction getFaction() {
@@ -90,6 +95,14 @@ public class Player {
 
     public void setDeck(List<Card> deck) {
         this.deck = deck;
+    }
+
+    public void setHand() {
+        System.out.println(deck.size());
+        Collections.shuffle(deck);
+        for (int i = 0; i < 10; i++) {
+            hand.add(deck.remove(deck.size()-1-i));
+        }
     }
 
     public List<Card> getDeck() {

@@ -70,6 +70,8 @@ public class Game {
                 cardList.addAll(deck.createAllCards());
             }
         }
+        player.setDeck(cardList);
+        player.setHand();
         return cardList;
     }
 

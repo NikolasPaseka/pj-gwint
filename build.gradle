@@ -9,7 +9,25 @@ repositories {
     mavenCentral()
 }
 
+def urlFile = { String url  ->
+    File file = new File("$buildDir/libs/${url.substring(url.lastIndexOf("/"))}")
+    file.parentFile.mkdirs()
+    if (!file.exists()) {
+        new URL(url).withInputStream { downloadStream ->
+            file.withOutputStream { fileOut ->
+                fileOut << downloadStream
+            }
+        }
+    }
+    files(file.absolutePath)
+}
+
 dependencies {
+    compile urlFile('https://akela.mendelu.cz/~xkoloma1/pjj/libs/greenfoot-runner-dist-LAST.jar')
+
+//    compile 'org.apache.commons:commons-lang3:3.11'
+//    testCompile "org.junit.jupiter:junit-jupiter:5.+"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }

@@ -63,6 +63,10 @@ public class UnitCard extends Card {
         return sb.toString();
     }
 
+    public int getPower() {
+        return power;
+    }
+
     public int getCurrentPower() {
         return currentPower;
     }
@@ -75,8 +79,8 @@ public class UnitCard extends Card {
         currentPower = power;
     }
 
-    public void setPowerMultiplicator(int multiply) {
-        powerMultiplicator *= multiply;
+    public void setPowerMultiplicator(int multiplier) {
+        powerMultiplicator = multiplier;
     }
 
     public int getPowerMultiplicator() {
@@ -85,6 +89,14 @@ public class UnitCard extends Card {
 
     public UnitType getType() {
         return type;
+    }
+
+    public FactionType getFaction() {
+        return faction;
+    }
+
+    public boolean isHero() {
+        return hero;
     }
 
     @Override

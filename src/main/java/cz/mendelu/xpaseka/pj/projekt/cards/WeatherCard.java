@@ -11,6 +11,7 @@ public class WeatherCard extends Card {
     public WeatherCard(WeatherType weatherType) {
         super(weatherType.name());
         this.weatherType = weatherType;
+        this.name = weatherType.getName();
     }
 
     @Override

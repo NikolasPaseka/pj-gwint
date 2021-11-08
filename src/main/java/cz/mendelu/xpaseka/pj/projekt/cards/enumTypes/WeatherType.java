@@ -11,4 +11,8 @@ public enum WeatherType {
     private WeatherType(String name) {
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
 }

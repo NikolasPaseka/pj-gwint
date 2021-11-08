@@ -12,9 +12,4 @@ public class Scoiatel extends Faction {
     public void applyEffect() {
         System.out.println("Choose who plays first");
     }
-
-    public void applyAbility() {
-        System.out.println("Takes card from deck");
-        player.takeCardFromDeck();
-    }
 }
