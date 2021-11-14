@@ -1,0 +1,35 @@
+Jak probíhá hra
+
+1. výběr frakce
+Při vytváření nového buildu máš na výběr ze čtyř frakcí. Každá frakce má své
+vlastní jednotky, velitele i jedinečnou schopnost.
+
+2. namíchání balíčku
+Když si hráči vyberou svou frakci, mohou si namíchat balíček do hry. 
+Složení balíčku musí ctít několik pravidel:
+	• balíček obsahuje nejvýše 5 karet hrdinů
+	• hrdinové se nesmí opakovat! - hrdiny poznáš podle oranžového líce v levo nahoře u karty
+	• balíček obsahuje nejvýše 10 zvláštních karet
+	• balíček celkem obsahuje minimálně 22 karet (v rámci testování zatím 12)
+
+3. začátek hry
+Balíček se ti zamíchá a do tvého hracího pole se přidá 10 karet. S těmi hraješ celou hru.
+
+4. průběh kola
+Každý hráč má ve svém tahu dvě možnosti:
+	• zahrát kartu - kliknutím na kartu v ruce
+	• vynechat tah - zmáčknutím mezerníku (etapa 5)
+Pokud hráč zahraje kartu, jeho tah končí a na řadě je
+soupeř. Takto se hraje do té doby, dokud jeden z hráčů
+nevynechá tah. Tím se vzdává možnosti v daném kole
+jakkoliv pokračovat. Oproti tomu druhý hráč pak může
+zahrát libovolný počet karet za sebou, dokud svůj tah
+také nevynechá. Až oba hráči vynechají, kolo končí a vyhodnotí se
+kdo má silnější armádu.
+
+5. vyhodnocení kola
+Kdo má slabší armádu, přichází o život. Pokud mají oba stejně, ztrácejí život oba. 
+Kdo ztratí oba životy, prohrává celý zápas. 
+V případě dvou remíz v řadě nastává remíza celková.
+Pokud mají oba hráči alespoň jeden život, pokračuje se dalším kolem (maximálně na 3 kola). 
+V tomto kole začíná hráč, který minulé kolo vyhrál. 

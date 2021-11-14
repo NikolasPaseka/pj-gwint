@@ -1,0 +1,39 @@
+Karty
+
+Znaky na kartách
+Karty jednotek a hrdinů mají v levé horní části bodové
+ohodnocení. Pod ním je znak umístění, který znamená, do
+které řady karta patří. Některé mají navíc i zvláštní schopnost. 
+Barva levého pruhu a znak vlevo dole na pruhu
+značí, o kterou frakci se jedná. Vespod karty je její název
+a popis. Zvláštní karty mají jen svůj symbol, název a popis
+
+Vysvětlení pojmů
+1. karta jednotek - má vlevo nahoře svou sílu
+2. karta hrdinů - má vlevo nahoře svou sílu a jsou podbarvně oranžově, 
+	karty hrdinů nepůsobí žádné zvláštní schopnosti – ani negativní,
+	ani pozitivní.
+3. zvláštní karty - Pokud má karta vlevo nahoře místo bodového ohodnocení symbol,
+	jedná se o zvláštní kartu. Zvláštní karty vyvolávají speciální události.
+
+Frakce
+Každá frakce má svou zvláštní schopnost. Schopnost lze použít jednou za zápas či v určitém okamžiku
+Nilfgaard - v případě remízy na konci kola vyhrává nilfgaard. Pokud za tuto frakci hrají oba
+hráči, schopnost se navzájem ruší.
+Příšery - Po skončení kola ti na stole zůstane jedna náhodně vybraná karta jednotek do
+dalšího kola.
+Severní říše - Pokud vyhraješ kolo, lízneš si jednu kartu z herního balíčku.
+Scoia‘tael - Jednou za zápas si můžeš zvolit, kdo bude začínat kolo.
+
+Zvláštní karty
+Velitelský roh - Zdvojnásobí sílu všech karet jednotek v dané řadě.
+Sežehnutí - Po vynesení odlož na odkládací balíček. Zničí nejsilnější kartu (karty) ve hře
+	(nehledě na to, na které straně bojiště se nachází!).
+Návnada - vyber si jednu kartu jednotek na své straně bojiště a vezmi si ji zpět do ruky.
+Štiplavý mráz (počasí) - do konce kola sníží oběma hráčům základní sílu karet jednotek
+	v přední linii na 1.
+Neproniknutelná mlha (počasí) - do konce kola sníží oběma hráčům základní sílu karet
+	jednotek v zadním voji na 1.
+Prudký déšť (počasí) - do konce kola sníží oběma hráčům základní sílu karet jednotek
+	v obléhací linii na 1.
+Jasná obloha - Tato karta ruší všechny ostatní účinky počasí.

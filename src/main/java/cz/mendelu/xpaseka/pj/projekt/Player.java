@@ -4,11 +4,13 @@ import cz.mendelu.xpaseka.pj.projekt.cards.Card;
 import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.factions.Faction;
+import cz.mendelu.xpaseka.pj.projekt.factions.Leader;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Player {
+public class Player implements Serializable {
     private String name;
     private int lifes;
     private int score;
@@ -16,6 +18,8 @@ public class Player {
     private List<Card> deck = new ArrayList<>();
     private List<Card> discardPile = new ArrayList<>();
     private Faction faction;
+    private Leader leader;
+    private boolean usedLeaderAbility = false;
     private CombatBoard combatBoard;
 
     Player(String name) {
@@ -50,6 +54,31 @@ public class Player {
         this.faction = faction;
     }
 
+    public void setLeader(int index) {
+        leader = faction.getLeader(index);
+    }
+
+    public Leader getLeader() {
+        return leader;
+    }
+
+    public boolean getUsedLeaderAbility() {
+        return usedLeaderAbility;
+    }
+
+    public void useFactionAbility() {
+        faction.applyEffect();
+    }
+
+    public void useLeaderAbility() {
+        leader.applyAbility();
+        usedLeaderAbility = true;
+    }
+
+    public int getLifes() {
+        return lifes;
+    }
+
     public void addCardToHand(Card card) {
         hand.add(card);
     }
@@ -77,16 +106,8 @@ public class Player {
         hand.remove(index).applyCard();
     }
 
-    public void useFactionAbility() {
-        faction.applyEffect();
-    }
-
     public Faction getFaction() {
         return faction;
-    }
-
-    public void addHorn(HornCard horn) {
-//        combatBoard.addHornCard(horn);
     }
 
     public CombatBoard getCombatBoard() {
@@ -97,8 +118,11 @@ public class Player {
         this.deck = deck;
     }
 
+    public void removeFromDeck(Card card) {
+        deck.remove(card);
+    }
+
     public void setHand() {
-        System.out.println(deck.size());
         Collections.shuffle(deck);
         for (int i = 0; i < 10; i++) {
             hand.add(deck.remove(deck.size()-1-i));
@@ -119,5 +143,33 @@ public class Player {
 
     public int getTotalScore() {
         return combatBoard.getTotalScore();
+    }
+
+    public int countHeroesInDeck() {
+        int numberOfHeroes = 0;
+        for (Card card : Game.getPlayer().getDeck()) {
+            if (card instanceof UnitCard) {
+                if (((UnitCard) card).isHero()) numberOfHeroes++;
+            }
+        }
+        return numberOfHeroes;
+    }
+
+    public int countCardStrength() {
+        int totalStrength = 0;
+        for (Card card : Game.getPlayer().getDeck()) {
+            if (card instanceof UnitCard) {
+                totalStrength += ((UnitCard) card).getPower();
+            }
+        }
+        return totalStrength;
+    }
+
+    public int countSpecialCards() {
+        int numberOfSpecialCards = 0;
+        for (Card card : Game.getPlayer().getDeck()) {
+            if (!(card instanceof UnitCard)) numberOfSpecialCards++;
+        }
+        return numberOfSpecialCards;
     }
 }

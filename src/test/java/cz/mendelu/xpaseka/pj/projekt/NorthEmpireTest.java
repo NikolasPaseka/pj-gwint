@@ -46,7 +46,7 @@ class NorthEmpireTest {
         List<Card> deck = player.getDeck();
         List<Card> hand = player.getHand();
 
-        Faction northEmpire = new NorthEmpire(player);
+        Faction northEmpire = new NorthEmpire();
 
         int expectedDeckSize = 2;
         int expectedHandSize = 2;
@@ -67,7 +67,7 @@ class NorthEmpireTest {
         // setup
         Game.createNewGame();
         Player player = Game.getPlayer();
-        Faction northEmpire = new NorthEmpire(player);
+        Faction northEmpire = new NorthEmpire();
 
         // when + then
         assertThrows(IndexOutOfBoundsException.class, () -> northEmpire.applyEffect());

@@ -26,7 +26,7 @@ class GameTest {
         // setup
         Game.createNewGame();
         Player player = Game.getPlayer();
-        player.setFaction(new NorthEmpire(player));
+        player.setFaction(new NorthEmpire());
         int minDeckSize = 22;
 
         //when

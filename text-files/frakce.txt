@@ -1,0 +1,13 @@
+Frakce
+Každá frakce má svou zvláštní schopnost. 
+Schopnost lze použít jednou za zápas či v určitém okamžiku (podrobnosti níže).
+
+Nilfgaard - v případě remízy na konci kola vyhrává nilfgaard. Pokud za tuto frakci hrají oba
+hráči, schopnost se navzájem ruší.
+
+Příšery - Po skončení kola ti na stole zůstane jedna náhodně vybraná karta jednotek do
+dalšího kola.
+
+Severní říše - Pokud vyhraješ kolo, lízni si jednu kartu z herního balíčku.
+
+Scoia‘tael - Jednou za zápas si můžeš zvolit, kdo bude začínat kolo

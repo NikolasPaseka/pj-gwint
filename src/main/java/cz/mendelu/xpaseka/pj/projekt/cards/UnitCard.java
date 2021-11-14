@@ -1,6 +1,7 @@
 package cz.mendelu.xpaseka.pj.projekt.cards;
 
 import cz.mendelu.xpaseka.pj.projekt.Game;
+import cz.mendelu.xpaseka.pj.projekt.Player;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.FactionType;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 
@@ -85,6 +86,10 @@ public class UnitCard extends Card {
 
     public int getPowerMultiplicator() {
         return powerMultiplicator;
+    }
+
+    public int getTotalPower() {
+        return currentPower * powerMultiplicator;
     }
 
     public UnitType getType() {

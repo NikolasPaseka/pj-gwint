@@ -1,5 +1,7 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import cz.mendelu.xpaseka.pj.projekt.cardFactory.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.factions.Monsters;
@@ -7,8 +9,14 @@ import cz.mendelu.xpaseka.pj.projekt.factions.Nilfgaard;
 import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
 import cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Game {
     private static Player player = new Player("player1");
@@ -45,7 +53,6 @@ public class Game {
      * @version etapa 3
      */
     public static List<Card> buildDeck(Player player){
-        // TODO implementace IO operaci pro zmenu karet v balicku - etapa 4
         List<Card> cardList = new ArrayList<>();
         CardFactory deck;
 
@@ -70,46 +77,88 @@ public class Game {
                 cardList.addAll(deck.createAllCards());
             }
         }
-        player.setDeck(cardList);
-        player.setHand();
         return cardList;
     }
 
+    public static boolean checkDeck(List<Card> deck) {
+        boolean playableDeck = true;
+
+        if (deck.size() >= 12) {
+            int numberOfSpecialCards = 0;
+            for (Card card : deck) {
+                if (!(card instanceof UnitCard)) numberOfSpecialCards++;
+                else {
+                    if (((UnitCard) card).isHero()) {
+                        int occurrences = Collections.frequency(deck, card);
+                        if (occurrences > 1) playableDeck = false;
+                    }
+                }
+            }
+            if (numberOfSpecialCards > 10) playableDeck = false;
+        } else {
+            playableDeck = false;
+        }
+
+        return playableDeck;
+    }
+
+    /**
+     * Ulozeni hracove konfigurace do slozky saves
+     *
+     * @author xpaseka
+     * @version etapa 4
+     *
+     * @param buildName - nazev buildu
+     */
+    public static void saveBuild(String buildName) {
+        try (var out = new ObjectOutputStream(new FileOutputStream("saves/" + buildName + ".player"))) {
+            out.writeObject(player);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Nacteni hracove konfigurace ze slozky saves
+     *
+     * @author xpaseka
+     * @version etapa 4
+     *
+     * @param buildName - nazev buildu
+     */
+    public static void loadBuild(String buildName) {
+        try (var in = new ObjectInputStream(new FileInputStream("saves/" + buildName + ".player"))) {
+            player = (Player) in.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Slouzi pro nacitani textovych souboru ze slozky text-files
+     *
+     * @author xpaseka
+     * @version etapa 4
+     *
+     * @param fileName - nazev textaku pro nacteni
+     * @return slozeny text
+     */
+    public static String getGameRules(String fileName) {
+        StringBuilder text = new StringBuilder();
+        try(var r = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream("text-files/" + fileName + ".txt"), StandardCharsets.UTF_8))) {
+            String line;
+            while ((line = r.readLine()) != null) {
+                text.append(line).append('\n');
+            }
+        } catch (IOException fileNotFoundException) {
+            fileNotFoundException.printStackTrace();
+        }
+        return text.toString();
+    }
+
     public static void main(String[] args) {
-/*        Card ciri = new UnitCard(UnitType.CLOSE_COMBAT, 9, "Ciri");
-        Card siege = new UnitCard(UnitType.SIEGE, 7, "Giga Siege");
-        Card yennefer = new UnitCard(UnitType.LONG_RANGE, 8, "Yen");
-
-        Card spy = new SpyCard(UnitType.LONG_RANGE, 2, "Djisktra");
-        Card horn = new HornCard();
-
-        player.addCardToHand(ciri);
-        player.addCardToDeck(siege);
-        player.addCardToDeck(yennefer);
-        player.addCardToHand(spy);
-        player.addCardToDeck(horn);
-        player.addCardToHand(new MusterCard(UnitType.LONG_RANGE, 5, "Arachas"));
-        player.addCardToDeck(new MusterCard(UnitType.LONG_RANGE, 5, "Arachas"));
-        player.addCardToDeck(new MusterCard(UnitType.LONG_RANGE, 5, "Arachas"));
-
-        player.addCardToHand(new WeatherCard(WeatherType.RAIN));
-
-        player.useFactionAbility();
-        player.playCard(1);
-        player.printHand();
-        player.printDeck();
-        player.playCard(1);
-        player.playCard(1);
-
-        System.out.println("Total Friendly score: " + player.getCombatBoard().getTotalScore());
-        System.out.println("Total Enemy score: " + opponent.getCombatBoard().getTotalScore());
-
-        player.addCardToHand(new WeatherCard(WeatherType.SUN));
-        player.printHand();
-        player.playCard(2);
-
-
-        System.out.println("Total Friendly score: " + player.getCombatBoard().getTotalScore());
-        System.out.println("Total Enemy score: " + opponent.getCombatBoard().getTotalScore());*/
+        System.out.println(player.getLifes());
     }
 }

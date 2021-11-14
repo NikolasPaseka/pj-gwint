@@ -1,0 +1,26 @@
+Jednotky a hrdinové
+
+Nástup (symbol 2 postav)
+v balíčku se najdou všechny stejný karty a vynesou se na bojiště.
+
+Špeh (symbol oka)
+karta se umístí na bojiště protivníka (bude se počítat k soupeřovým bodům)
+lízneš si 2 karty ze svého herního balíčku.
+
+Hbitost (symbol šipek)
+kartu můžeš vyložit do kterékoliv řady
+
+Zdravotník (symbol srdce)
+Vrátí na bojiště poslední kartu z tvého odhazovacího balíčku
+
+Pevné pouto (symbol ruk)
+karty se stejným jménem a schopností „pevné pouto“ násobí svoji sílu.
+
+Povzbuzení (symbol kříže)
+Přidává 1 bod k síle všech karet jednotek ve své řadě (kromě sebe sama).
+
+Velitelský roh (symbol rohu) 
+Zdvojnásobí sílu všech karet jednotek v dané řadě (včetně té, na níž je symbol rohu)
+
+Sežehnutí (symbol lebky) - Po vynesení zničí nejsilnější kartu (karty) ve hře
+(nehledě na to, na které straně bojiště se nachází!).

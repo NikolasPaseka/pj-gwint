@@ -5,12 +5,13 @@ import cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CombatBoard {
+public class CombatBoard implements Serializable {
     /**
      * @author xpaseka
      * @version etapa 3
@@ -94,6 +95,14 @@ public class CombatBoard {
             for (UnitCard card : cards) {
                 score += card.getCurrentPower() * card.getPowerMultiplicator();
             }
+        }
+        return score;
+    }
+
+    public int getRowScore(UnitType unitType) {
+        int score = 0;
+        for (UnitCard card : unitCards.get(unitType)) {
+            score += card.getCurrentPower() * card.getPowerMultiplicator();
         }
         return score;
     }
