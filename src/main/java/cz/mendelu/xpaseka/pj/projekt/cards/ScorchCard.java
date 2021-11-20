@@ -12,6 +12,15 @@ public class ScorchCard extends UnitCard {
         super(type, power, name, faction, hero);
     }
 
+    public ScorchCard(ScorchCard card) {
+        this(card.getType(), card.getPower(), card.getName(), card.getFaction(), card.isHero());
+    }
+
+    @Override
+    public ScorchCard cloneObject() {
+        return new ScorchCard(this);
+    }
+
     /**
      * Přidá kartu jednotky na hráčovu hrací desku a použije efekt ScorchCard
      * Efekt Scorch nalezne protivnikovi nejsilnejsi jednotky a spali je

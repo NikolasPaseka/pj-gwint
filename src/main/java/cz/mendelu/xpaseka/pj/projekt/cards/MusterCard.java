@@ -11,6 +11,15 @@ public class MusterCard extends UnitCard {
         super(type, power, name, faction, hero);
     }
 
+    public MusterCard(MusterCard card) {
+        this(card.getType(), card.getPower(), card.getName(), card.getFaction(), card.isHero());
+    }
+
+    @Override
+    public MusterCard cloneObject() {
+        return new MusterCard(this);
+    }
+
     /**
      * Přidá kartu jednotky na hráčovu hrací desku a použije efekt MusterCard
      * Efekt MusterCard nalezne všechny stejné jednotky v odkládacím báličku hráče a vyloží na stůl
@@ -25,13 +34,11 @@ public class MusterCard extends UnitCard {
         System.out.println("Playing Muster card");
         Game.getPlayer().addCardToCombatBoard(this);
         List<Card> playersDeck = Game.getPlayer().getDeck();
-        int i = 0;
-        for (Card card: playersDeck) {
-            if (card.getName().equals(name) && card instanceof UnitCard) {
-                i++;
-                Game.getPlayer().addCardToCombatBoard((UnitCard) card);
+
+        for (int i = 0; i < playersDeck.size(); i++) {
+            if (playersDeck.get(i).getName().equals(name) && playersDeck.get(i) instanceof UnitCard) {
+                Game.getPlayer().addCardToCombatBoard((UnitCard) playersDeck.remove(i));
             }
         }
-        System.out.println("Found " + i + " " + name + " cards");
     }
 }

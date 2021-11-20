@@ -32,10 +32,7 @@ public class HornButtonActor extends Actor {
             Game.getPlayer().playCard(cardIndex);
             getWorld().addObject(new HornCardActor(unitType), 0, 0);
 
-            var handCards = getWorld().getObjects(HandCardActor.class);
-            for (HandCardActor handCardActor : handCards) {
-                handCardActor.setPlayable(true);
-            }
+            ((GwintWorld) getWorld()).setPlayableHand(true);
 
             getWorld().removeObjects(getWorld().getObjects(HornButtonActor.class));
         }

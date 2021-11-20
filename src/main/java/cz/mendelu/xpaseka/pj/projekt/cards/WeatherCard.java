@@ -14,6 +14,15 @@ public class WeatherCard extends Card {
         this.name = weatherType.getName();
     }
 
+    public WeatherCard(WeatherCard card) {
+        this(card.getWeatherType());
+    }
+
+    @Override
+    public WeatherCard cloneObject() {
+        return new WeatherCard(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

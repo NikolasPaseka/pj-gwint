@@ -11,6 +11,11 @@ public class HornCard extends Card {
         super("Commander's Horn");
     }
 
+    @Override
+    public HornCard cloneObject() {
+        return new HornCard();
+    }
+
     public void applyCard() {
         Game.getPlayer().getCombatBoard().addHornCard(unitType, this);
     }

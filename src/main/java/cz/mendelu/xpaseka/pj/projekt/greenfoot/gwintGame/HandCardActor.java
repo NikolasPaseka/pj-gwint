@@ -1,9 +1,7 @@
 package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
 
 import cz.mendelu.xpaseka.pj.projekt.Player;
-import cz.mendelu.xpaseka.pj.projekt.cards.Card;
-import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
+import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
@@ -62,11 +60,14 @@ public class HandCardActor extends Actor {
             getWorld().addObject(new HornButtonActor(index, UnitType.CLOSE_COMBAT), 447, 465);
             getWorld().addObject(new HornButtonActor(index, UnitType.LONG_RANGE), 447, 575);
             getWorld().addObject(new HornButtonActor(index, UnitType.SIEGE), 447, 685);
-
-            var handCards = getWorld().getObjects(HandCardActor.class);
-            for (HandCardActor handCardActor : handCards) {
-                handCardActor.setPlayable(false);
-            }
+            ((GwintWorld) getWorld()).setPlayableHand(false);
+        } else if (card instanceof AgileCard) {
+            getWorld().addObject(new UnitTypeButtonActor((AgileCard) card, index, ((AgileCard) card).getType()), 0, 0);
+            getWorld().addObject(new UnitTypeButtonActor((AgileCard) card, index, ((AgileCard) card).getSecondUnitType()), 0, 0);
+            ((GwintWorld) getWorld()).setPlayableHand(false);
+        } else if (card instanceof DecoyCard) {
+            ((GwintWorld) getWorld()).renderUnitCardButtons((DecoyCard) card, index);
+            ((GwintWorld) getWorld()).setPlayableHand(false);
         } else {
             player.playCard(index);
         }

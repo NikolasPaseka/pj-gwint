@@ -10,6 +10,15 @@ public class SpyCard extends UnitCard {
         super(type, power, name, faction, hero);
     }
 
+    public SpyCard(SpyCard card) {
+        this(card.getType(), card.getPower(), card.getName(), card.getFaction(), card.isHero());
+    }
+
+    @Override
+    public SpyCard cloneObject() {
+        return new SpyCard(this);
+    }
+
     /**
      * Metoda vylozi kartu na nepriteluv stul a aplikuje efekt Spy
      * Karta pridava silu protivnikovi ale hrac si vezme 2 pridavne karty ze sveho balicku

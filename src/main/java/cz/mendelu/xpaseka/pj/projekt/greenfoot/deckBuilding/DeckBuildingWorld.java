@@ -3,6 +3,7 @@ package cz.mendelu.xpaseka.pj.projekt.greenfoot.deckBuilding;
 import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.Player;
 import cz.mendelu.xpaseka.pj.projekt.cards.Card;
+import cz.mendelu.xpaseka.pj.projekt.cards.DecoyCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.greenfoot.Button;
@@ -84,7 +85,7 @@ public class DeckBuildingWorld extends World {
                 i = 0;
             }
             if (unitType == null) {
-                if (!(card instanceof UnitCard)) {
+                if (!(card instanceof UnitCard) || card instanceof DecoyCard) {
                     addObject(new CardActor(card, false), coorX + (i * 79), coorY);
                     i++;
                 }

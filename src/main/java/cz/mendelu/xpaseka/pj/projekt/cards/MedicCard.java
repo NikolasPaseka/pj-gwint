@@ -10,6 +10,15 @@ public class MedicCard extends UnitCard {
         super(type, power, name, faction, hero);
     }
 
+    public MedicCard(MedicCard card) {
+        this(card.getType(), card.getPower(), card.getName(), card.getFaction(), card.isHero());
+    }
+
+    @Override
+    public MedicCard cloneObject() {
+        return new MedicCard(this);
+    }
+
     /**
      * Metoda prida kartu na hracuv stul a aplikuje efekt medika
      * Efekt medika umozni vybrat kartu ze spalenych karet a instantne ji zahraje

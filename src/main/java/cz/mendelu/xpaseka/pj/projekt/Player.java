@@ -1,12 +1,17 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
+import cz.mendelu.xpaseka.pj.projekt.cards.AgileCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.Card;
-import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.factions.Faction;
 import cz.mendelu.xpaseka.pj.projekt.factions.Leader;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 
@@ -84,7 +89,17 @@ public class Player implements Serializable {
     }
 
     public void addCardToDeck(Card card) {
-        deck.add(card);
+//        if (card instanceof AgileCard) {
+//            deck.add(((AgileCard) card).cloneObject());
+////            try {
+////                deck.add(card.getClass().getDeclaredConstructor(card.getClass()).newInstance(card));
+////            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+////                e.printStackTrace();
+////            }
+//        } else {
+//            deck.add(card);
+//        }
+        deck.add(card.cloneObject());
     }
 
     public void addCardToDiscardPile(Card card) {

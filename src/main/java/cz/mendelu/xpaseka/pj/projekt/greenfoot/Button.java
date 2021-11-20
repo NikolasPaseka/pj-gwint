@@ -91,6 +91,8 @@ public abstract class Button extends Actor {
         public void act() {
             if (Greenfoot.mouseClicked(this) && active) {
                 Game.getPlayer().setHand();
+//                Game.receiveOppenentConf();
+//                Game.sendPlayerConf();
                 Greenfoot.setWorld(new GwintWorld());
             }
         }
@@ -137,8 +139,11 @@ public abstract class Button extends Actor {
         public void act() {
             if (Greenfoot.mouseClicked(this)) {
                 String buildName = Greenfoot.ask("Name of build: ");
-                Game.loadBuild(buildName);
-                Greenfoot.setWorld(new DeckBuildingWorld());
+                if (Game.loadBuild(buildName)) {
+                    Greenfoot.setWorld(new DeckBuildingWorld());
+                } else {
+                    System.out.println("could load game file");
+                }
             }
         }
 

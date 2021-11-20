@@ -1,7 +1,5 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import cz.mendelu.xpaseka.pj.projekt.cardFactory.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.factions.Monsters;
@@ -10,6 +8,9 @@ import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
 import cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel;
 
 import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -126,12 +127,14 @@ public class Game {
      *
      * @param buildName - nazev buildu
      */
-    public static void loadBuild(String buildName) {
+    public static boolean loadBuild(String buildName) {
         try (var in = new ObjectInputStream(new FileInputStream("saves/" + buildName + ".player"))) {
             player = (Player) in.readObject();
+            return true;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     /**
@@ -156,6 +159,29 @@ public class Game {
             fileNotFoundException.printStackTrace();
         }
         return text.toString();
+    }
+
+    public static void sendPlayerConf() {
+        try {
+            Socket s = new Socket("lol", 1234);
+            ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
+            out.writeObject(Game.getPlayer());
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void receiveOppenentConf() {
+        try {
+            ServerSocket server = new ServerSocket(1234);
+            Socket s = server.accept();
+            ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+            opponent = (Player) in.readObject();
+            System.out.println("received: " + opponent);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {

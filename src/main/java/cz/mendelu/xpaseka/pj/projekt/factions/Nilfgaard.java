@@ -29,7 +29,7 @@ public class Nilfgaard extends Faction {
             @Override
             protected void setAttributes() {
                 name = "Emhyr var Emreis the White Flame";
-                abilityDescription = "Cancel your  opponents Leader ability";
+                abilityDescription = "Cancel your opponents Leader ability";
             }
         });
 

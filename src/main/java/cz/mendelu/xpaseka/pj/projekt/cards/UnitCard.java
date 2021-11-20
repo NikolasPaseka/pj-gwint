@@ -8,7 +8,7 @@ import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import java.util.Objects;
 
 public class UnitCard extends Card {
-    protected final UnitType type;
+    protected UnitType type;
     protected final int power;
     protected int currentPower;
     protected int powerMultiplicator;
@@ -23,6 +23,14 @@ public class UnitCard extends Card {
         this.powerMultiplicator = 1;
         this.faction = faction;
         this.hero = hero;
+    }
+
+    public UnitCard(UnitCard card) {
+        this(card.getType(), card.getPower(), card.getName(), card.getFaction(), card.isHero());
+    }
+
+    public UnitCard cloneObject() {
+        return new UnitCard(this);
     }
 
     /**

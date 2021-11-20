@@ -4,7 +4,7 @@ import cz.mendelu.xpaseka.pj.projekt.Game;
 
 import java.io.Serializable;
 
-public abstract class Card implements Serializable {
+public abstract class Card implements Serializable{
     protected String name;
 
     public Card(String name) {
@@ -15,5 +15,6 @@ public abstract class Card implements Serializable {
         return name;
     }
 
+    public abstract Card cloneObject();
     public abstract void applyCard();
 }

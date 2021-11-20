@@ -6,6 +6,10 @@ public class ScorchSpecialCard extends Card {
         super("Scorch");
     }
 
+    public ScorchSpecialCard cloneObject() {
+        return new ScorchSpecialCard();
+    }
+
     @Override
     public void applyCard() {
         // TODO

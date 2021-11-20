@@ -4,9 +4,7 @@ import cz.mendelu.xpaseka.pj.projekt.CombatBoard;
 import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.Player;
 import cz.mendelu.xpaseka.pj.projekt.WeatherBoard;
-import cz.mendelu.xpaseka.pj.projekt.cards.Card;
-import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard;
+import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
 import greenfoot.Actor;
@@ -27,8 +25,8 @@ public class GwintWorld extends World {
     private int playerNumberOfCards = 0;
     private int opponentNumberOfCards = 0;
 
-    private final Player player;
-    private final Player opponent;
+    private Player player;
+    private Player opponent;
 
     private Map<UnitType, Position> positionsPlayer = new HashMap<>();
     private Map<UnitType, Position> positionsOpponent = new HashMap<>();
@@ -129,7 +127,7 @@ public class GwintWorld extends World {
         addObject(new DiscardPileActor(player), 1450, 800);
         addObject(new DiscardPileActor(opponent), 1450, 115);
 
-        setPaintOrder(WeatherEffectActor.class, BoardCardActor.class);
+        setPaintOrder(CardButtonActor.class, UnitTypeButtonActor.class, WeatherEffectActor.class, BoardCardActor.class);
     }
 
     @Override
@@ -210,5 +208,32 @@ public class GwintWorld extends World {
                 i++;
             }
         }
+    }
+
+    public void renderUnitCardButtons(DecoyCard decoy, int indexHand) {
+        var board = player.getCombatBoard().getAllUnits();
+        var positions = positionsPlayer;
+        for (List<UnitCard> cards : board.values()) {
+            int i = 0;
+            for (UnitCard card : cards) {
+                var position = positions.get(card.getType());
+                if (!(card instanceof DecoyCard)) {
+                    addObject(new CardButtonActor(decoy, card.getType(), i, indexHand), position.x + (i * 79), position.y);
+                }
+                i++;
+            }
+        }
+    }
+
+    public void setPlayableHand(boolean playableHand) {
+        var hand = getObjects(HandCardActor.class);
+        for (var card: hand) {
+            card.setPlayable(playableHand);
+        }
+    }
+
+    public void reload() {
+        player = Game.getPlayer();
+        opponent = Game.getOpponent();
     }
 }

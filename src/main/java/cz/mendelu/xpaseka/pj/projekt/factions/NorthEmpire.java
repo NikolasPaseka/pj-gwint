@@ -50,6 +50,7 @@ public class NorthEmpire extends Faction {
                  int siegeScore = opponent.getCombatBoard().getRowScore(UnitType.SIEGE);
                  if (siegeScore >= 10) {
                      new ScorchSpecialCard().applyCard();
+                     // TODO scorch only Siege
                  }
             }
         });

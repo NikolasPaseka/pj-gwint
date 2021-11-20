@@ -43,6 +43,21 @@ public class CombatBoard implements Serializable {
         unitCards.put(card.getType(), cards);
         WeatherBoard.reapplyWeatherEffects();
         applyHorn();
+        System.out.println("" +UnitType.CLOSE_COMBAT + " " + unitCards.get(UnitType.CLOSE_COMBAT).size());
+        for (UnitCard test: unitCards.get(UnitType.CLOSE_COMBAT)) {
+            System.out.println(test.getName() + " " + test.getType());
+        }
+        System.out.println();
+        System.out.println("" +UnitType.LONG_RANGE + " " + unitCards.get(UnitType.LONG_RANGE).size());
+        for (UnitCard test: unitCards.get(UnitType.LONG_RANGE)) {
+            System.out.println(test.getName() + " " + test.getType());
+        }
+        System.out.println();
+        System.out.println("" +UnitType.SIEGE  + " " +  unitCards.get(UnitType.SIEGE).size());
+        for (UnitCard test: unitCards.get(UnitType.SIEGE)) {
+            System.out.println(test.getName() + " " + test.getType());
+        }
+        System.out.println();
     }
 
     public void addHornCard(UnitType unitType, HornCard horn) {

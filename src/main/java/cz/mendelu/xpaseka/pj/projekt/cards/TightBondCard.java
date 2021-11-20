@@ -10,6 +10,14 @@ public class TightBondCard extends UnitCard {
         super(type, power, name, faction, hero);
     }
 
+    public TightBondCard(TightBondCard card) {
+        this(card.getType(), card.getPower(), card.getName(), card.getFaction(), card.isHero());
+    }
+
+    @Override
+    public TightBondCard cloneObject() {
+        return new TightBondCard(this);
+    }
     /**
      * Metoda prida kartu na hracuv stul a aplikuje efekt Tight Bond
      * Pokud jsou v radku kde se karta polozi stejne karty aplikuje se u nich efekt

@@ -25,11 +25,11 @@ public class FactionChoiceWorld extends World {
         //addObject(new FactionLabelActor());
 
         addObject(new FactionChoiceActor(new Nilfgaard()), 600, 450);
-        //addObject(new FactionChoiceActor(new Scoiatel()), 900, 450);
+        addObject(new FactionChoiceActor(new Scoiatel()), 900, 450);
         //addObject(new FactionChoiceActor(new Monsters()), 1200, 450);
         getBackground().setColor(Color.ORANGE);
         getBackground().setFont(getBackground().getFont().deriveFont(18f));
-        getBackground().drawString("Scoiatel and Monsters - TODO", 800, 450);
+        getBackground().drawString("Monsters - TODO", 1200, 450);
     }
 
     @Override
