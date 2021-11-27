@@ -89,16 +89,6 @@ public class Player implements Serializable {
     }
 
     public void addCardToDeck(Card card) {
-//        if (card instanceof AgileCard) {
-//            deck.add(((AgileCard) card).cloneObject());
-////            try {
-////                deck.add(card.getClass().getDeclaredConstructor(card.getClass()).newInstance(card));
-////            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
-////                e.printStackTrace();
-////            }
-//        } else {
-//            deck.add(card);
-//        }
         deck.add(card.cloneObject());
     }
 

@@ -25,11 +25,18 @@ public class DecoyCard extends UnitCard {
     }
 
     @Override
+    public void setCurrentPower(int power) {
+        this.currentPower = 0;
+    }
+
+    @Override
     public void applyCard() {
         if (index > -1 && type != null) {
             var board = Game.getPlayer().getCombatBoard();
             var row = board.getRow(type);
-            Game.getPlayer().addCardToHand(row.remove(index));
+            var cardToChange = row.remove((index));
+            cardToChange.removeEffect();
+            Game.getPlayer().addCardToHand(cardToChange);
             row.add(index, this);
         }
     }

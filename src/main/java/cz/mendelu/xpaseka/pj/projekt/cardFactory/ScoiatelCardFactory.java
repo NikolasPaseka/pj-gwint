@@ -16,9 +16,9 @@ public class ScoiatelCardFactory implements CardFactory {
 
         scoiatelCards.add(new UnitCard(UnitType.LONG_RANGE, 10, "Eithne", faction, true));
         scoiatelCards.add(new UnitCard(UnitType.LONG_RANGE, 10, "Saesenthessis", faction, true));
-        scoiatelCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 10, "Isengrim Faolitarna", faction, true)); // TODO morale card
+        scoiatelCards.add(new MoraleCard(UnitType.CLOSE_COMBAT, 10, "Isengrim Faolitarna", faction, true));
         scoiatelCards.add(new UnitCard(UnitType.LONG_RANGE, 10, "Iorverth", faction, true));
-        scoiatelCards.add(new UnitCard(UnitType.LONG_RANGE, 10, "Milva", faction, false)); // TODO morale card
+        scoiatelCards.add(new MoraleCard(UnitType.LONG_RANGE, 10, "Milva", faction, false));
         scoiatelCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 6, "Dennis Cranmer", faction, false));
         scoiatelCards.add(new UnitCard(UnitType.LONG_RANGE, 6, "Ida Emean aep Sivney", faction, false));
         scoiatelCards.add(new AgileCard(UnitType.CLOSE_COMBAT, 6, "Filavandrel aen Fidhail", faction, false, UnitType.LONG_RANGE));

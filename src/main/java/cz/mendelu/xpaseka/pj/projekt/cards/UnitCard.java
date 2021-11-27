@@ -117,4 +117,8 @@ public class UnitCard extends Card {
         System.out.println(name);
         Game.getPlayer().addCardToCombatBoard(this);
     }
+
+    public void removeEffect() {
+        this.currentPower = this.power;
+    }
 }

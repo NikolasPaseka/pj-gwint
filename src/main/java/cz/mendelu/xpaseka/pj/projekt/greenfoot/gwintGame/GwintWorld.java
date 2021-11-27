@@ -34,7 +34,10 @@ public class GwintWorld extends World {
     private Map<BoardType, Integer> boardSizes = new HashMap<>();
     private Map<BoardType, Integer> boardSizesOp = new HashMap<>();
 
-    enum BoardType {HAND, WEATHER}
+    private int playersHorns = 0;
+    private int opponentsHorns = 0;
+
+    enum BoardType {HAND, WEATHER, HORN}
 
     public static class Position{
         public int x;
@@ -132,16 +135,30 @@ public class GwintWorld extends World {
 
     @Override
     public void act() {
+        // Players hand check
         if (boardSizes.get(BoardType.HAND) != player.getHand().size()) {
             boardSizes.put(BoardType.HAND, player.getHand().size());
             updateHand(player.getHand());
         }
+
+        // WeatherBoard check
         if (boardSizes.get(BoardType.WEATHER) != WeatherBoard.getWeatherCards().size()) {
             boardSizes.put(BoardType.WEATHER, WeatherBoard.getWeatherCards().size());
             updateWeatherBoard();
             System.out.println(boardSizes.get(BoardType.WEATHER));
         }
 
+        // Horn cards check
+        if (countHorns(player) != playersHorns) {
+            playersHorns = countHorns(player);
+            renderHornCards(player, positionsPlayer);
+        }
+        if (countHorns(opponent) != opponentsHorns) {
+            opponentsHorns = countHorns(opponent);
+            renderHornCards(opponent, positionsOpponent);
+        }
+
+        // CombatBoard check
         if (playerNumberOfCards != getNumberOfCards(player.getCombatBoard())) {
             playerNumberOfCards = getNumberOfCards(player.getCombatBoard());
             updateCombatBoard();
@@ -225,12 +242,38 @@ public class GwintWorld extends World {
         }
     }
 
+    private void renderHornCards(Player player, Map<UnitType, Position> positions) {
+        for (var hornsMap: player.getCombatBoard().getHornCards().entrySet()) {
+            if (hornsMap.getValue() != null) {
+                var position = positions.get(hornsMap.getKey());
+                addObject(new Actor() {
+                    {
+                        setImage("images/cards/HD+/Commander's Horn.jpg");
+                    }
+                }, position.x - 100, position.y);
+            }
+        }
+    }
+
+    private int countHorns(Player player) {
+        int numberOfHorns = 0;
+        var horns = player.getCombatBoard().getHornCards();
+        for (HornCard hornCard: horns.values()) {
+            if (hornCard != null) {
+                numberOfHorns++;
+            }
+        }
+        return numberOfHorns;
+    }
+
     public void setPlayableHand(boolean playableHand) {
         var hand = getObjects(HandCardActor.class);
         for (var card: hand) {
             card.setPlayable(playableHand);
         }
     }
+
+
 
     public void reload() {
         player = Game.getPlayer();

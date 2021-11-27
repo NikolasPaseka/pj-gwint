@@ -1,9 +1,11 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
 import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
+import cz.mendelu.xpaseka.pj.projekt.cards.MoraleCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
+import cz.mendelu.xpaseka.pj.projekt.factions.Monsters;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -43,21 +45,7 @@ public class CombatBoard implements Serializable {
         unitCards.put(card.getType(), cards);
         WeatherBoard.reapplyWeatherEffects();
         applyHorn();
-        System.out.println("" +UnitType.CLOSE_COMBAT + " " + unitCards.get(UnitType.CLOSE_COMBAT).size());
-        for (UnitCard test: unitCards.get(UnitType.CLOSE_COMBAT)) {
-            System.out.println(test.getName() + " " + test.getType());
-        }
-        System.out.println();
-        System.out.println("" +UnitType.LONG_RANGE + " " + unitCards.get(UnitType.LONG_RANGE).size());
-        for (UnitCard test: unitCards.get(UnitType.LONG_RANGE)) {
-            System.out.println(test.getName() + " " + test.getType());
-        }
-        System.out.println();
-        System.out.println("" +UnitType.SIEGE  + " " +  unitCards.get(UnitType.SIEGE).size());
-        for (UnitCard test: unitCards.get(UnitType.SIEGE)) {
-            System.out.println(test.getName() + " " + test.getType());
-        }
-        System.out.println();
+        applyMoraleEffect(card);
     }
 
     public void addHornCard(UnitType unitType, HornCard horn) {
@@ -77,6 +65,14 @@ public class CombatBoard implements Serializable {
                 }
             }
         }
+    }
+
+    private void applyMoraleEffect(UnitCard card) {
+        boolean isMoraleCard = false;
+        for (var c: unitCards.get(card.getType())) {
+            if (c instanceof MoraleCard) isMoraleCard = true;
+        }
+        if (isMoraleCard && !(card instanceof MoraleCard)) card.setCurrentPower(card.getCurrentPower() + 1);
     }
 
     /**
@@ -120,5 +116,9 @@ public class CombatBoard implements Serializable {
             score += card.getCurrentPower() * card.getPowerMultiplicator();
         }
         return score;
+    }
+
+    public Map<UnitType, HornCard> getHornCards() {
+        return hornCards;
     }
 }
