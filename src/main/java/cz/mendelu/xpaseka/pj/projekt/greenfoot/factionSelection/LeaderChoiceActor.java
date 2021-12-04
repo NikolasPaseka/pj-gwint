@@ -24,14 +24,14 @@ public class LeaderChoiceActor extends Actor {
     public LeaderChoiceActor(Leader leader, int index) {
         this.leader = leader;
         this.index = index;
-        setImage(String.format("images/Leaders/%s/%s.png", Game.getPlayer().getFaction().getName(), leader.getName()));
+        setImage(String.format("images/Leaders/%s/%s.png", Game.getGameInstance().getPlayer().getFaction().getName(), leader.getName()));
         createTextBox();
     }
 
     @Override
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
-            Game.getPlayer().setLeader(index);
+            Game.getGameInstance().getPlayer().setLeader(index);
         }
         if (Greenfoot.mouseMoved(this)) {
             getWorld().addObject(textBox, 800, 800);

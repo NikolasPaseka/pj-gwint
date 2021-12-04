@@ -27,9 +27,9 @@ public class HornButtonActor extends Actor {
     @Override
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
-            HornCard card = (HornCard) Game.getPlayer().getHand().get(cardIndex);
+            HornCard card = (HornCard) Game.getGameInstance().getPlayer().getHand().get(cardIndex);
             card.setUnitType(unitType);
-            Game.getPlayer().playCard(cardIndex);
+            Game.getGameInstance().getPlayer().playCard(cardIndex);
 
             ((GwintWorld) getWorld()).setPlayableHand(true);
 

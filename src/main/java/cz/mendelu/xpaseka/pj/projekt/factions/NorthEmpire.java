@@ -30,10 +30,10 @@ public class NorthEmpire extends Faction {
      */
     @Override
     public void applyEffect() {
-        List<Card> deck = Game.getPlayer().getDeck();
+        List<Card> deck = Game.getGameInstance().getPlayer().getDeck();
         int deckSize = deck.size();
         Card card = deck.remove(deckSize-1);
-        Game.getPlayer().addCardToHand(card);
+        Game.getGameInstance().getPlayer().addCardToHand(card);
     }
 
     protected void createLeaders() {
@@ -46,7 +46,7 @@ public class NorthEmpire extends Faction {
 
             @Override
             public void applyAbility() {
-                 var opponent = Game.getOpponent();
+                 var opponent = Game.getGameInstance().getOpponent();
                  int siegeScore = opponent.getCombatBoard().getRowScore(UnitType.SIEGE);
                  if (siegeScore >= 10) {
                      new ScorchSpecialCard().applyCard();
@@ -93,7 +93,7 @@ public class NorthEmpire extends Faction {
             @Override
             public void applyAbility() {
                 boolean found = false;
-                Iterator<Card> iterator = Game.getPlayer().getDeck().listIterator();
+                Iterator<Card> iterator = Game.getGameInstance().getPlayer().getDeck().listIterator();
                 while (!found && iterator.hasNext()) {
                     Card card = iterator.next();
                     if (card instanceof WeatherCard) {

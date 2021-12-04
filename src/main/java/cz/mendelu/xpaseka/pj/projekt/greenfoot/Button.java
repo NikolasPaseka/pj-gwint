@@ -80,7 +80,7 @@ public abstract class Button extends Actor {
             setImage("images/Buttons/button_active.png");
             getImage().setFont(getImage().getFont().deriveFont(18f));
             getImage().setColor(Color.WHITE);
-            getImage().drawString("Main menu", 19,32);
+            getImage().drawString("Main menu", 30,32);
         }
     };
 
@@ -90,9 +90,7 @@ public abstract class Button extends Actor {
         @Override
         public void act() {
             if (Greenfoot.mouseClicked(this) && active) {
-                Game.getPlayer().setHand();
-//                Game.receiveOppenentConf();
-//                Game.sendPlayerConf();
+                Game.getGameInstance().getPlayer().setHand();
                 Greenfoot.setWorld(new GwintWorld());
             }
         }
@@ -117,7 +115,7 @@ public abstract class Button extends Actor {
         public void act() {
             if (Greenfoot.mouseClicked(this) && active) {
                 String buildName = Greenfoot.ask("Name of build: ");
-                Game.saveBuild(buildName);
+                Game.getGameInstance().saveBuild(buildName);
             }
         }
 
@@ -138,12 +136,7 @@ public abstract class Button extends Actor {
         @Override
         public void act() {
             if (Greenfoot.mouseClicked(this)) {
-                String buildName = Greenfoot.ask("Name of build: ");
-                if (Game.loadBuild(buildName)) {
-                    Greenfoot.setWorld(new DeckBuildingWorld());
-                } else {
-                    System.out.println("could load game file");
-                }
+                Greenfoot.setWorld(new LoadMenuWorld());
             }
         }
 

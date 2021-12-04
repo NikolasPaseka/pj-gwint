@@ -32,11 +32,12 @@ public class DecoyCard extends UnitCard {
     @Override
     public void applyCard() {
         if (index > -1 && type != null) {
-            var board = Game.getPlayer().getCombatBoard();
+            var game = Game.getGameInstance();
+            var board = game.getPlayer().getCombatBoard();
             var row = board.getRow(type);
             var cardToChange = row.remove((index));
             cardToChange.removeEffect();
-            Game.getPlayer().addCardToHand(cardToChange);
+            game.getPlayer().addCardToHand(cardToChange);
             row.add(index, this);
         }
     }

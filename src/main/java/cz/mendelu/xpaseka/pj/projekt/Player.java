@@ -5,6 +5,7 @@ import cz.mendelu.xpaseka.pj.projekt.cards.Card;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.factions.Faction;
 import cz.mendelu.xpaseka.pj.projekt.factions.Leader;
+import cz.mendelu.xpaseka.pj.projekt.network.Network;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,7 @@ public class Player implements Serializable {
     private Leader leader;
     private boolean usedLeaderAbility = false;
     private CombatBoard combatBoard;
+    private boolean finishedRound = false;
 
     Player(String name) {
         this.name = name;
@@ -53,6 +55,14 @@ public class Player implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, lifes, score, faction);
+    }
+
+    public void setFinishedRound(boolean finishedRound) {
+        this.finishedRound = finishedRound;
+    }
+
+    public boolean getFinishedRound() {
+        return finishedRound;
     }
 
     public void setFaction(Faction faction) {
@@ -84,6 +94,10 @@ public class Player implements Serializable {
         return lifes;
     }
 
+    public void decreaseLife() {
+        lifes -= 1;
+    }
+
     public void addCardToHand(Card card) {
         hand.add(card);
     }
@@ -109,6 +123,10 @@ public class Player implements Serializable {
 
     public void playCard(int index) {
         hand.remove(index).applyCard();
+        if (!Game.getGameInstance().getOpponent().getFinishedRound()) {
+            Game.getGameInstance().switchPlayerOnMove();
+        }
+        Network.getClient().sent();
     }
 
     public Faction getFaction() {
@@ -152,7 +170,7 @@ public class Player implements Serializable {
 
     public int countHeroesInDeck() {
         int numberOfHeroes = 0;
-        for (Card card : Game.getPlayer().getDeck()) {
+        for (Card card : getDeck()) {
             if (card instanceof UnitCard) {
                 if (((UnitCard) card).isHero()) numberOfHeroes++;
             }
@@ -162,7 +180,7 @@ public class Player implements Serializable {
 
     public int countCardStrength() {
         int totalStrength = 0;
-        for (Card card : Game.getPlayer().getDeck()) {
+        for (Card card : getDeck()) {
             if (card instanceof UnitCard) {
                 totalStrength += ((UnitCard) card).getPower();
             }
@@ -172,7 +190,7 @@ public class Player implements Serializable {
 
     public int countSpecialCards() {
         int numberOfSpecialCards = 0;
-        for (Card card : Game.getPlayer().getDeck()) {
+        for (Card card : getDeck()) {
             if (!(card instanceof UnitCard)) numberOfSpecialCards++;
         }
         return numberOfSpecialCards;

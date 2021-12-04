@@ -14,10 +14,10 @@ import greenfoot.Actor;
 
 public class LifeActor extends Actor {
     private final int lifeCrystal;
-    private final Player player;
+    private final PlayerEnum player;
     private boolean grey = false;
 
-    public LifeActor(Player player, int lifeCrystal) {
+    public LifeActor(PlayerEnum player, int lifeCrystal) {
         this.player = player;
         this.lifeCrystal = lifeCrystal;
         setImage("images/Lifes/life_red.png");
@@ -25,7 +25,8 @@ public class LifeActor extends Actor {
 
     @Override
     public void act() {
-        if (!grey && player.getLifes() < lifeCrystal) {
+        var p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        if (!grey && p.getLifes() < lifeCrystal) {
             setImage("images/Lifes/life_grey.png");
             grey = true;
         }

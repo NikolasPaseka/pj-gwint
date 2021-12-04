@@ -30,7 +30,7 @@ public class MedicCard extends UnitCard {
     public void applyCard() {
         super.applyCard();
 
-        Player player = Game.getPlayer();
+        Player player = Game.getGameInstance().getPlayer();
         var discardPile = player.getDiscardPile();
 
         // TODO IO implementace - vyber konkretni karty (prozatim se bere posledni karta)

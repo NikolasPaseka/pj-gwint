@@ -42,7 +42,7 @@ public class Scoiatel extends Faction {
             @Override
             public void applyAbility() {
                 boolean found = false;
-                Iterator<Card> iterator = Game.getPlayer().getDeck().listIterator();
+                Iterator<Card> iterator = Game.getGameInstance().getPlayer().getDeck().listIterator();
                 while (!found && iterator.hasNext()) {
                     Card card = iterator.next();
                     if (card instanceof WeatherCard) {
@@ -65,8 +65,8 @@ public class Scoiatel extends Faction {
         leaders.add(new Leader() {
             @Override
             public void applyAbility() {
-                var deck = Game.getPlayer().getDeck();
-                Game.getPlayer().addCardToHand(deck.remove(deck.size()-1));
+                var deck = Game.getGameInstance().getPlayer().getDeck();
+                Game.getGameInstance().getPlayer().addCardToHand(deck.remove(deck.size()-1));
             }
 
             @Override
@@ -79,7 +79,7 @@ public class Scoiatel extends Faction {
         leaders.add(new Leader() {
             @Override
             public void applyAbility() {
-                var opponent = Game.getOpponent();
+                var opponent = Game.getGameInstance().getOpponent();
                 int siegeScore = opponent.getCombatBoard().getRowScore(UnitType.CLOSE_COMBAT);
                 if (siegeScore >= 10) {
                     new ScorchSpecialCard().applyCard();

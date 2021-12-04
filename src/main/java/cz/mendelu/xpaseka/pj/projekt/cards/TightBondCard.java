@@ -29,7 +29,7 @@ public class TightBondCard extends UnitCard {
     public void applyCard() {
         super.applyCard();
 
-        Player player = Game.getPlayer();
+        Player player = Game.getGameInstance().getPlayer();
         var row = player.getCombatBoard().getRow(this.type);
 
         int numberOfSameCards = 0;

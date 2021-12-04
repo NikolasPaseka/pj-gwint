@@ -4,6 +4,7 @@ import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.FactionType;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class MusterCard extends UnitCard {
@@ -32,12 +33,17 @@ public class MusterCard extends UnitCard {
     @Override
     public void applyCard() {
         System.out.println("Playing Muster card");
-        Game.getPlayer().addCardToCombatBoard(this);
-        List<Card> playersDeck = Game.getPlayer().getDeck();
+        super.applyCard();
 
-        for (int i = 0; i < playersDeck.size(); i++) {
-            if (playersDeck.get(i).getName().equals(name) && playersDeck.get(i) instanceof UnitCard) {
-                Game.getPlayer().addCardToCombatBoard((UnitCard) playersDeck.remove(i));
+        var player = Game.getGameInstance().getPlayer();
+        List<Card> playersDeck = player.getDeck();
+        Iterator<Card> iterator = playersDeck.listIterator();
+
+        while (iterator.hasNext()) {
+            var card = iterator.next();
+            if (card.getName().equals(name) && card instanceof UnitCard) {
+                player.addCardToCombatBoard((UnitCard) card);
+                iterator.remove();
             }
         }
     }

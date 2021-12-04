@@ -12,9 +12,9 @@ import greenfoot.GreenfootImage;
 import java.awt.*;
 
 public class ScoreActor extends Actor {
-    private final Player player;
+    private final PlayerEnum player;
 
-    public ScoreActor(Player player) {
+    public ScoreActor(PlayerEnum player) {
         this.player = player;
         update();
     }
@@ -25,7 +25,8 @@ public class ScoreActor extends Actor {
     }
 
     public void update() {
-        int score = player.getTotalScore();
+        Player p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        int score = p.getTotalScore();
         setImage(new GreenfootImage(String.valueOf(score), 35, Color.WHITE, new Color(0, 0, 0, 0)));
     }
 }

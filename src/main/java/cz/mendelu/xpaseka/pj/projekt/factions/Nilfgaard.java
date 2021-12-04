@@ -37,7 +37,7 @@ public class Nilfgaard extends Faction {
             @Override
             public void applyAbility() {
                 boolean found = false;
-                Iterator<Card> iterator = Game.getPlayer().getDeck().listIterator();
+                Iterator<Card> iterator = Game.getGameInstance().getPlayer().getDeck().listIterator();
                 while (!found && iterator.hasNext()) {
                     Card card = iterator.next();
                     if (card instanceof WeatherCard) {
@@ -73,9 +73,9 @@ public class Nilfgaard extends Faction {
         leaders.add(new Leader() {
             @Override
             public void applyAbility() {
-                var discardPile = Game.getOpponent().getDiscardPile();
+                var discardPile = Game.getGameInstance().getOpponent().getDiscardPile();
                 if (discardPile.size() > 0) {
-                    Game.getPlayer().addCardToHand(discardPile.remove(discardPile.size()-1));
+                    Game.getGameInstance().getPlayer().addCardToHand(discardPile.remove(discardPile.size()-1));
                 }
             }
 

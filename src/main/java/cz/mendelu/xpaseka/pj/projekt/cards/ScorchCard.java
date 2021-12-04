@@ -30,7 +30,8 @@ public class ScorchCard extends UnitCard {
     @Override
     public void applyCard() {
         super.applyCard();
-        var opponentCards = Game.getOpponent().getCombatBoard().getAllUnits();
+        var opponent = Game.getGameInstance().getOpponent();
+        var opponentCards = opponent.getCombatBoard().getAllUnits();
         int maxPower = 0;
 
         for (List<UnitCard> cards : opponentCards.values()) {
@@ -46,12 +47,12 @@ public class ScorchCard extends UnitCard {
             while (iterator.hasNext()) {
                 var card = iterator.next();
                 if (card.getCurrentPower() == maxPower) {
-                    Game.getOpponent().addCardToDiscardPile(card);
+                    opponent.addCardToDiscardPile(card);
                     iterator.remove();
                 }
             }
         }
 
-        System.out.println("discard " + Game.getOpponent().getDiscardPile().size());
+        System.out.println("discard " + opponent.getDiscardPile().size());
     }
 }

@@ -1,12 +1,10 @@
 package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
 
-import cz.mendelu.xpaseka.pj.projekt.CombatBoard;
-import cz.mendelu.xpaseka.pj.projekt.Game;
-import cz.mendelu.xpaseka.pj.projekt.Player;
-import cz.mendelu.xpaseka.pj.projekt.WeatherBoard;
+import cz.mendelu.xpaseka.pj.projekt.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
+import cz.mendelu.xpaseka.pj.projekt.network.Network;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
 import greenfoot.World;
@@ -22,6 +20,8 @@ import java.util.Map;
  */
 
 public class GwintWorld extends World {
+    private boolean finishedRound = false;
+
     private int playerNumberOfCards = 0;
     private int opponentNumberOfCards = 0;
 
@@ -49,32 +49,34 @@ public class GwintWorld extends World {
         }
     }
 
+    private boolean opponentConnected = false;
 
     public GwintWorld() {
         super(1600, 900, 1);
         setBackground("images/gwint-design3.png");
 
-        this.player = Game.getPlayer();
-        this.opponent = Game.getOpponent();
+        this.player = Game.getGameInstance().getPlayer();
+        this.opponent = Game.getGameInstance().getOpponent();
 
         // testing opponent build
-        opponent.setFaction(new NorthEmpire());
-        opponent.setLeader(3);
-        opponent.setDeck(Game.buildDeck(opponent));
-        opponent.setHand();
+//        opponent.setFaction(new NorthEmpire());
+//        opponent.setLeader(3);
+//        opponent.setDeck(Game.buildDeck(opponent));
+//        opponent.setHand();
 
+        setUpIPAddress();
         setUp();
         renderActors();
     }
 
-    public void setUp() {
+    private void setUp() {
         positionsPlayer.put(UnitType.CLOSE_COMBAT, new Position(542, 465));
         positionsPlayer.put(UnitType.LONG_RANGE, new Position(542, 578));
         positionsPlayer.put(UnitType.SIEGE, new Position(542, 693));
 
-        positionsOpponent.put(UnitType.CLOSE_COMBAT, new Position(542, 332));
+        positionsOpponent.put(UnitType.CLOSE_COMBAT, new Position(542, 320));
         positionsOpponent.put(UnitType.LONG_RANGE, new Position(542, 200));
-        positionsOpponent.put(UnitType.SIEGE, new Position(542, 150));
+        positionsOpponent.put(UnitType.SIEGE, new Position(542, 95));
 
         boardSizes.put(BoardType.HAND, 0);
         boardSizes.put(BoardType.WEATHER, 0);
@@ -82,7 +84,7 @@ public class GwintWorld extends World {
         boardSizesOp.put(BoardType.HAND, 0);
     }
 
-    public void renderActors() {
+    private void renderActors() {
         // Leader card render
         addObject(new Actor() {
             {
@@ -97,44 +99,107 @@ public class GwintWorld extends World {
             }
         }, 60, 605);
 
-        // Leader opponent card render
-        addObject(new Actor() {
-            {
-                setImage(String.format("images/Leaders/%s/%s.png", opponent.getFaction().getName(), opponent.getLeader().getName()));
-            }
-        }, 196, 148);
 
-        // faction opponent logo render
-        addObject(new Actor() {
-            {
-                setImage(String.format("images/factionLogos/smaller/%s.png", opponent.getFaction().getName()));
-            }
-        }, 60, 290);
+        addObject(new LifeActor(PlayerEnum.PLAYER, 2), 255, 580);
+        addObject(new LifeActor(PlayerEnum.PLAYER, 1), 290, 580);
 
-        addObject(new LifeActor(player, 2), 255, 580);
-        addObject(new LifeActor(player, 1), 290, 580);
+        addObject(new LifeActor(PlayerEnum.OPPONENT, 2), 255, 265);
+        addObject(new LifeActor(PlayerEnum.OPPONENT, 1), 290, 265);
 
-        addObject(new LifeActor(opponent, 2), 255, 265);
-        addObject(new LifeActor(opponent, 1), 290, 265);
+        addObject(new FinishedPlayingActor(PlayerEnum.PLAYER), 100, 760);
+        addObject(new FinishedPlayingActor(PlayerEnum.OPPONENT), 100, 160);
 
-        addObject(new ScoreActor(player), 340, 602);
-        addObject(new ScoreActor(opponent), 340, 288);
+        addObject(new ScoreActor(PlayerEnum.PLAYER), 340, 602);
+        addObject(new ScoreActor(PlayerEnum.OPPONENT), 340, 288);
 
         // addObject(new RowScoreActor(Game.getPlayer(), UnitType.CLOSE_COMBAT), 120, 600);
 
         addObject(new DeckActor(player), 1435, 611);
         addObject(new DeckActor(opponent), 1435, 285);
-        addObject(new DeckCounterActor(player), 1510, 611);
-        addObject(new DeckCounterActor(opponent), 1500, 285);
+        addObject(new DeckCounterActor(PlayerEnum.PLAYER), 1510, 611);
+        addObject(new DeckCounterActor(PlayerEnum.OPPONENT), 1500, 285);
 
-        addObject(new DiscardPileActor(player), 1450, 800);
-        addObject(new DiscardPileActor(opponent), 1450, 115);
+        addObject(new DiscardPileActor(PlayerEnum.PLAYER), 1450, 800);
+        addObject(new DiscardPileActor(PlayerEnum.OPPONENT), 1450, 115);
+
+        addObject(new OnMoveLabelActor(Game.getGameInstance().getPlayerOnMove()), 250, 400);
 
         setPaintOrder(CardButtonActor.class, UnitTypeButtonActor.class, WeatherEffectActor.class, BoardCardActor.class);
     }
 
+    private void setUpIPAddress() {
+        String ipAddress = Greenfoot.ask("ip address of your opponent: ");
+        Network.createClient(ipAddress);
+        Network.getClient().sent();
+
+        if (!Network.getServer().getConnected()) {
+            System.out.println("You are first");
+            Game.getGameInstance().setPlayerOnMove(PlayerEnum.PLAYER);
+        } else {
+            System.out.println("You are second");
+            Game.getGameInstance().setPlayerOnMove(PlayerEnum.OPPONENT);
+        }
+        //Game.getGameInstance().setPlayerOnMove(PlayerEnum.PLAYER);
+    }
+
     @Override
     public void act() {
+        renderNetworkChanges();
+        renderObjects();
+
+        if (Greenfoot.isKeyDown("x")) {
+            player.useLeaderAbility();
+        }
+
+        if ((Greenfoot.isKeyDown("space") && !finishedRound && Game.getGameInstance().getPlayerOnMove() == PlayerEnum.PLAYER)
+            || (player.getHand().size() <= 0 && !finishedRound)) {
+            player.setFinishedRound(true);
+            Game.getGameInstance().setPlayerOnMove(PlayerEnum.OPPONENT);
+            Network.getClient().sent();
+            finishedRound = true;
+            System.out.println("You ended round");
+        }
+
+        if (player.getFinishedRound() && opponent.getFinishedRound()) {
+            Game.getGameInstance().startNewRound();
+            finishedRound = false;
+        }
+    }
+
+    private void renderNetworkChanges() {
+        // check connection
+        if (!opponentConnected && Network.getServer().getConnected()) {
+            System.out.println("connected");
+            opponentConnected = true;
+            opponent = Game.getGameInstance().getOpponent();
+            // Leader opponent card render
+            addObject(new Actor() {
+                {
+                    setImage(String.format("images/Leaders/%s/%s.png", opponent.getFaction().getName(), opponent.getLeader().getName()));
+                }
+            }, 196, 148);
+
+            // faction opponent logo render
+            addObject(new Actor() {
+                {
+                    setImage(String.format("images/factionLogos/smaller/%s.png", opponent.getFaction().getName()));
+                }
+            }, 60, 290);
+        }
+
+        // Check players change
+        if (opponent != Game.getGameInstance().getOpponent()) {
+            opponent = Game.getGameInstance().getOpponent();
+            updateCombatBoard();
+        }
+        if (player != Game.getGameInstance().getPlayer()) {
+            player = Game.getGameInstance().getPlayer();
+            updateCombatBoard();
+            updateHand(player.getHand());
+        }
+    }
+
+    private void renderObjects() {
         // Players hand check
         if (boardSizes.get(BoardType.HAND) != player.getHand().size()) {
             boardSizes.put(BoardType.HAND, player.getHand().size());
@@ -142,10 +207,11 @@ public class GwintWorld extends World {
         }
 
         // WeatherBoard check
-        if (boardSizes.get(BoardType.WEATHER) != WeatherBoard.getWeatherCards().size()) {
-            boardSizes.put(BoardType.WEATHER, WeatherBoard.getWeatherCards().size());
+        var weatherBoard = Game.getGameInstance().getWeatherBoard();
+        if (boardSizes.get(BoardType.WEATHER) != weatherBoard.getWeatherCards().size()) {
+            boardSizes.put(BoardType.WEATHER, weatherBoard.getWeatherCards().size());
             updateWeatherBoard();
-            System.out.println(boardSizes.get(BoardType.WEATHER));
+            weatherBoard.reapplyWeatherEffects();
         }
 
         // Horn cards check
@@ -166,10 +232,6 @@ public class GwintWorld extends World {
         if (opponentNumberOfCards != getNumberOfCards(opponent.getCombatBoard())) {
             opponentNumberOfCards = getNumberOfCards(opponent.getCombatBoard());
             updateCombatBoard();
-        }
-
-        if (Greenfoot.isKeyDown("x")) {
-            player.useLeaderAbility();
         }
     }
 
@@ -201,11 +263,13 @@ public class GwintWorld extends World {
         removeObjects(getObjects(WeatherCardActor.class));
         removeObjects(getObjects(WeatherEffectActor.class));
 
-        List<WeatherCard> cards = new ArrayList<>(WeatherBoard.getWeatherCards());
+        var weatherBoard = Game.getGameInstance().getWeatherBoard();
+        List<WeatherCard> cards = new ArrayList<>(weatherBoard.getWeatherCards());
         int i = 0;
         for (WeatherCard card : cards) {
             addObject(new WeatherCardActor(card),110 + (i * 90), 450);
-            addObject(new WeatherEffectActor(card.getWeatherType()), 0, 0);
+            addObject(new WeatherEffectActor(card.getWeatherType(), PlayerEnum.PLAYER), 0, 0);
+            addObject(new WeatherEffectActor(card.getWeatherType(), PlayerEnum.OPPONENT), 0, 0);
             i++;
         }
     }
@@ -273,10 +337,8 @@ public class GwintWorld extends World {
         }
     }
 
-
-
     public void reload() {
-        player = Game.getPlayer();
-        opponent = Game.getOpponent();
+        player = Game.getGameInstance().getPlayer();
+        opponent = Game.getGameInstance().getOpponent();
     }
 }

@@ -33,10 +33,10 @@ public class CardActor extends Actor {
     @Override
     public void act() {
         if (Greenfoot.mouseClicked(this) && !inDeck) {
-            Game.getPlayer().addCardToDeck(card);
+            Game.getGameInstance().getPlayer().addCardToDeck(card);
             inDeck = true;
         } else if (Greenfoot.mouseClicked(this) && inDeck) {
-            Game.getPlayer().removeFromDeck(card);
+            Game.getGameInstance().getPlayer().removeFromDeck(card);
             inDeck = false;
         }
     }

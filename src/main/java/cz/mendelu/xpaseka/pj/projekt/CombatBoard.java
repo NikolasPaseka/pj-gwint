@@ -43,7 +43,10 @@ public class CombatBoard implements Serializable {
         List<UnitCard> cards = unitCards.get(card.getType());
         cards.add(card);
         unitCards.put(card.getType(), cards);
-        WeatherBoard.reapplyWeatherEffects();
+
+        // update of weather cards effects
+        Game.getGameInstance().getWeatherBoard().reapplyWeatherEffects();
+
         applyHorn();
         applyMoraleEffect(card);
     }
@@ -120,5 +123,16 @@ public class CombatBoard implements Serializable {
 
     public Map<UnitType, HornCard> getHornCards() {
         return hornCards;
+    }
+
+    public void clear() {
+        unitCards.clear();
+        hornCards.clear();
+        unitCards.put(UnitType.CLOSE_COMBAT, new ArrayList<>());
+        unitCards.put(UnitType.LONG_RANGE, new ArrayList<>());
+        unitCards.put(UnitType.SIEGE, new ArrayList<>());
+        hornCards.put(UnitType.CLOSE_COMBAT, null);
+        hornCards.put(UnitType.LONG_RANGE, null);
+        hornCards.put(UnitType.SIEGE, null);
     }
 }

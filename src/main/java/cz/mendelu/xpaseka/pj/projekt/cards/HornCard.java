@@ -17,7 +17,8 @@ public class HornCard extends Card {
     }
 
     public void applyCard() {
-        Game.getPlayer().getCombatBoard().addHornCard(unitType, this);
+        var game = Game.getGameInstance();
+        game.getPlayer().getCombatBoard().addHornCard(unitType, this);
     }
 
     public void setUnitType(UnitType unitType) {

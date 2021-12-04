@@ -5,20 +5,30 @@ import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.WeatherType;
 import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class WeatherBoard {
+public class WeatherBoard implements Serializable {
+    private static WeatherBoard weatherBoardInstance = null;
+
     /**
      * @author xpaseka
      * @version etapa 3
      */
-    private static Set<WeatherCard> weatherCards = new HashSet<>();
+    private Set<WeatherCard> weatherCards = new HashSet<>();
 
-    public static Set<WeatherCard> getWeatherCards() {
+    public Set<WeatherCard> getWeatherCards() {
         return weatherCards;
+    }
+
+    public static WeatherBoard getWeatherBoardInstance() {
+        if (weatherBoardInstance == null) {
+            weatherBoardInstance = new WeatherBoard();
+        }
+        return weatherBoardInstance;
     }
 
     /**
@@ -36,7 +46,7 @@ public class WeatherBoard {
      * @version etapa 2
      * @version etapa 3
      */
-    public static void addWeatherCard(WeatherCard card) {
+    public void addWeatherCard(WeatherCard card) {
         if (card.getWeatherType() == WeatherType.SUN) {
             applySunEffect();
         } else {
@@ -45,7 +55,7 @@ public class WeatherBoard {
         }
     }
 
-    public static void reapplyWeatherEffects() {
+    public void reapplyWeatherEffects() {
         List<WeatherCard> cards = new ArrayList<>(weatherCards);
         for (WeatherCard card : cards) {
             if (card.getWeatherType() == WeatherType.RAIN) {
@@ -58,9 +68,9 @@ public class WeatherBoard {
         }
     }
 
-    private static void applyWeatherEffect(UnitType type) {
-        List<UnitCard> playerCards = Game.getPlayer().getCombatBoard().getRow(type);
-        List<UnitCard> opponentCards = Game.getOpponent().getCombatBoard().getRow(type);
+    private void applyWeatherEffect(UnitType type) {
+        List<UnitCard> playerCards = Game.getGameInstance().getPlayer().getCombatBoard().getRow(type);
+        List<UnitCard> opponentCards = Game.getGameInstance().getOpponent().getCombatBoard().getRow(type);
 
         for (UnitCard card : playerCards) {
             if (!card.isHero()) {
@@ -74,11 +84,11 @@ public class WeatherBoard {
         }
     }
 
-    private static void applySunEffect() {
+    private void applySunEffect() {
         weatherCards.clear();
 
-        var playerUnitCards = Game.getPlayer().getCombatBoard().getAllUnits();
-        var opponentUnitCards = Game.getOpponent().getCombatBoard().getAllUnits();
+        var playerUnitCards = Game.getGameInstance().getPlayer().getCombatBoard().getAllUnits();
+        var opponentUnitCards = Game.getGameInstance().getOpponent().getCombatBoard().getAllUnits();
 
         for (List<UnitCard> cards: playerUnitCards.values()) {
             for (UnitCard card : cards) {

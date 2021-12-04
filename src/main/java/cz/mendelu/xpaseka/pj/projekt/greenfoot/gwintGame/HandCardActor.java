@@ -1,5 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
 
+import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.Player;
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
@@ -37,7 +38,7 @@ public class HandCardActor extends Actor {
 
     @Override
     public void act() {
-        if (Greenfoot.mouseClicked(this) && playable) {
+        if (Greenfoot.mouseClicked(this) && playable && Game.getGameInstance().getPlayerOnMove() == PlayerEnum.PLAYER) {
             playCard();
         }
     }

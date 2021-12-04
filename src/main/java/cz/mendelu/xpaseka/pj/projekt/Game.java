@@ -2,42 +2,95 @@ package cz.mendelu.xpaseka.pj.projekt;
 
 import cz.mendelu.xpaseka.pj.projekt.cardFactory.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
+import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.WeatherType;
 import cz.mendelu.xpaseka.pj.projekt.factions.Monsters;
 import cz.mendelu.xpaseka.pj.projekt.factions.Nilfgaard;
 import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
 import cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel;
+import cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.PlayerEnum;
 
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class Game {
-    private static Player player = new Player("player1");
-    private static Player opponent = new Player("player2");
+public class Game implements Serializable {
+    private static Game gameInstance = null;
 
-    public static void createNewGame() {
-        player = new Player("player1");
-        opponent = new Player("player2");
+    private Player player = new Player("Player");
+    private Player opponent = new Player("Opponent");
+    private PlayerEnum playerOnMove;
+
+    private WeatherBoard weatherBoard = WeatherBoard.getWeatherBoardInstance();
+
+    public static Game getGameInstance() {
+        if (gameInstance == null) {
+            gameInstance = new Game();
+        }
+        return gameInstance;
     }
 
-    public static Player getPlayer() {
+    public void reloadGame(Game game) {
+        gameInstance = game;
+    }
+
+    public Player getPlayer() {
         return player;
     }
 
-    public static Player getOpponent() {
+    public Player getOpponent() {
         return opponent;
     }
 
-    public static void startNewRound(){
-        throw new UnsupportedOperationException("Not implemented yet");
+    public void setPlayerOnMove(PlayerEnum player) {
+        playerOnMove = player;
+    }
+
+    public void switchPlayerOnMove() {
+        playerOnMove = (playerOnMove == PlayerEnum.PLAYER) ? PlayerEnum.OPPONENT : PlayerEnum.PLAYER;
+    }
+
+    public PlayerEnum getPlayerOnMove() {
+        return playerOnMove;
+    }
+
+    public void reloadPlayer(Player p) {
+        player = p;
+    }
+    public void reloadOpponent(Player op) {
+        opponent = op;
+    }
+
+    public WeatherBoard getWeatherBoard() {
+        return weatherBoard;
+    }
+
+    public void reloadWeatherBoard(WeatherBoard w) {
+        weatherBoard = w;
+    }
+
+    public void startNewRound(){
+        PlayerEnum loser;
+        if ((player.getTotalScore() > opponent.getTotalScore())) {
+            System.out.println("You won this round");
+            opponent.decreaseLife();
+            loser = PlayerEnum.OPPONENT;
+        } else {
+            System.out.println("You lost this round");
+            player.decreaseLife();
+            loser = PlayerEnum.PLAYER;
+        }
+        setPlayerOnMove(loser);
+
+        player.getCombatBoard().clear();
+        opponent.getCombatBoard().clear();
+
+        player.setFinishedRound(false);
+        opponent.setFinishedRound(false);
+
+        //clear weatherBoard
+        weatherBoard.addWeatherCard(new WeatherCard(WeatherType.SUN));
     }
 
     /**
@@ -111,7 +164,7 @@ public class Game {
      *
      * @param buildName - nazev buildu
      */
-    public static void saveBuild(String buildName) {
+    public void saveBuild(String buildName) {
         try (var out = new ObjectOutputStream(new FileOutputStream("saves/" + buildName + ".player"))) {
             out.writeObject(player);
         } catch (IOException e) {
@@ -127,7 +180,7 @@ public class Game {
      *
      * @param buildName - nazev buildu
      */
-    public static boolean loadBuild(String buildName) {
+    public boolean loadBuild(String buildName) {
         try (var in = new ObjectInputStream(new FileInputStream("saves/" + buildName + ".player"))) {
             player = (Player) in.readObject();
             return true;
@@ -159,32 +212,5 @@ public class Game {
             fileNotFoundException.printStackTrace();
         }
         return text.toString();
-    }
-
-    public static void sendPlayerConf() {
-        try {
-            Socket s = new Socket("lol", 1234);
-            ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
-            out.writeObject(Game.getPlayer());
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void receiveOppenentConf() {
-        try {
-            ServerSocket server = new ServerSocket(1234);
-            Socket s = server.accept();
-            ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-            opponent = (Player) in.readObject();
-            System.out.println("received: " + opponent);
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(player.getLifes());
     }
 }

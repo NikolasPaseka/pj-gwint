@@ -24,8 +24,8 @@ class GameTest {
     @Test
     void buildDeck() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        var game = new Game();
+        Player player = game.getPlayer();
         player.setFaction(new NorthEmpire());
         int minDeckSize = 22;
 
@@ -44,8 +44,8 @@ class GameTest {
     @Test
     void buildDeck_fail() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        var game = new Game();
+        Player player = game.getPlayer();
 
         //when
         player.setDeck(Game.buildDeck(player));

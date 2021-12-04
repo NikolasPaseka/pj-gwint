@@ -27,8 +27,9 @@ class MusterCardTest {
     @Test
     void applyCard() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        Game.getGameInstance().reloadPlayer(new Player("Player"));
+        var player = Game.getGameInstance().getPlayer();
+
         Card arachas1 = new MusterCard(UnitType.LONG_RANGE, 5, "Arachas", FactionType.NEUTRAL, false);
         Card arachas2 = new MusterCard(UnitType.LONG_RANGE, 5, "Arachas", FactionType.NEUTRAL, false);
         Card arachas3 = new MusterCard(UnitType.LONG_RANGE, 5, "Arachas", FactionType.NEUTRAL, false);
@@ -52,8 +53,8 @@ class MusterCardTest {
     @Test
     void applyCard_noMusterCards() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        Game.getGameInstance().reloadPlayer(new Player("Player"));
+
         Card havekar = new MusterCard(UnitType.LONG_RANGE, 3, "Havekar Smuggler", FactionType.NEUTRAL, false);
 
         int expectedPower = 3;
@@ -62,6 +63,6 @@ class MusterCardTest {
         havekar.applyCard();
 
         // then
-        assertEquals(expectedPower, player.getTotalScore());
+        assertEquals(expectedPower, Game.getGameInstance().getPlayer().getTotalScore());
     }
 }

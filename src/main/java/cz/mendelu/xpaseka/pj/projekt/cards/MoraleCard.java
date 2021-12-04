@@ -29,7 +29,7 @@ public class MoraleCard extends UnitCard {
     @Override
     public void applyCard() {
         System.out.println("Playing Morale Card");
-        var player = Game.getPlayer();
+        var player = Game.getGameInstance().getPlayer();
         var unitCards = player.getCombatBoard().getRow(this.getType());
 
         for (UnitCard card: unitCards) {
@@ -41,7 +41,7 @@ public class MoraleCard extends UnitCard {
 
     @Override
     public void removeEffect() {
-        var player = Game.getPlayer();
+        var player = Game.getGameInstance().getPlayer();
         var unitCards = player.getCombatBoard().getRow(this.getType());
 
         for (UnitCard card: unitCards) {

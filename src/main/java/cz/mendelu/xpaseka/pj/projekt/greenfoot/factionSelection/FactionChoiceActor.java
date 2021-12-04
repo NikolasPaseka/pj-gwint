@@ -21,7 +21,7 @@ public class FactionChoiceActor extends Actor {
     @Override
     public void act() {
         if (Greenfoot.mouseClicked(this)) {
-            Game.getPlayer().setFaction(faction);
+            Game.getGameInstance().getPlayer().setFaction(faction);
         }
         if (!renderedLabel) {
             getWorld().addObject(new FactionLabelActor(faction.getName()), getX(), getY() + 100);

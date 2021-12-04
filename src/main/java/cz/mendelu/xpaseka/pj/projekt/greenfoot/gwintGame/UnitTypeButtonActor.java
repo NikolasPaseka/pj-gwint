@@ -25,11 +25,11 @@ public class UnitTypeButtonActor extends Actor {
             render();
         }
         if (Greenfoot.mouseClicked(this)) {
-            AgileCard cardd = (AgileCard) Game.getPlayer().getHand().get(index);
+            AgileCard cardd = (AgileCard) Game.getGameInstance().getPlayer().getHand().get(index);
             if (cardd.getType() != unitType) {
                 cardd.switchUnitType();
             }
-            Game.getPlayer().playCard(index);
+            Game.getGameInstance().getPlayer().playCard(index);
 
 
             ((GwintWorld) getWorld()).setPlayableHand(true);

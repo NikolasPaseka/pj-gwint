@@ -8,26 +8,27 @@ import greenfoot.Actor;
 
 public class DiscardPileActor extends Actor {
 
-    private final Player player;
+    private final PlayerEnum player;
 
     private int playerDiscardPileSize = 0;
-    private int opponentDiscardPileSize = 0;
 
-    DiscardPileActor(Player player) {
+    DiscardPileActor(PlayerEnum player) {
         this.player = player;
         setTransparentImage();
     }
 
     @Override
     public void act() {
-        if (playerDiscardPileSize != player.getDiscardPile().size()) {
-            playerDiscardPileSize = player.getDiscardPile().size();
+        var p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        if (playerDiscardPileSize != p.getDiscardPile().size()) {
+            playerDiscardPileSize = p.getDiscardPile().size();
             updateDiscardPile();
         }
     }
 
     private void updateDiscardPile() {
-        var card = player.getDiscardPile().get(player.getDiscardPile().size()-1);
+        var p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        var card = p.getDiscardPile().get(p.getDiscardPile().size()-1);
         if (card instanceof UnitCard) {
             setImage(String.format("images/cards/HD+/%s/%s.jpg", ((UnitCard) card).getFaction().name(), card.getName()));
         } else {
@@ -37,7 +38,8 @@ public class DiscardPileActor extends Actor {
     }
 
     public void setPower() {
-        var card = player.getDiscardPile().get(player.getDiscardPile().size()-1);
+        var p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        var card = p.getDiscardPile().get(p.getDiscardPile().size()-1);
         var cardPower = ((UnitCard) card).getCurrentPower();
 
         String powerString = String.valueOf(cardPower);

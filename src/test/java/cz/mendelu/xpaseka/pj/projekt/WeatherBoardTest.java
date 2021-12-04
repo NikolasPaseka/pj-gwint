@@ -28,17 +28,17 @@ class WeatherBoardTest {
     @Test
     void addWeatherCard_Rain() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        Game.getGameInstance().reloadPlayer(new Player("player"));
+        Player player = Game.getGameInstance().getPlayer();
 
-        UnitCard yennefer = new UnitCard(UnitType.LONG_RANGE, 8, "Yen", FactionType.NILFGAARDIAN_EMPIRE, true);
+        UnitCard yennefer = new UnitCard(UnitType.SIEGE, 8, "Yen", FactionType.NILFGAARDIAN_EMPIRE, false);
         yennefer.applyCard();
         int expectedPower = 1;
 
         WeatherCard rainCard = new WeatherCard(WeatherType.RAIN);
 
         // when
-        WeatherBoard.addWeatherCard(rainCard);
+        Game.getGameInstance().getWeatherBoard().addWeatherCard(rainCard);
 
         // then
         assertEquals(expectedPower, player.getTotalScore());
@@ -51,8 +51,8 @@ class WeatherBoardTest {
     @Test
     void addWeatherCard_Sun() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        Game.getGameInstance().reloadPlayer(new Player("player"));
+        Player player = Game.getGameInstance().getPlayer();
 
         UnitCard ciri = new UnitCard(UnitType.CLOSE_COMBAT, 9, "Ciri", FactionType.NEUTRAL, true);
         UnitCard cynthia = new UnitCard(UnitType.LONG_RANGE, 7, "Cynthia", FactionType.NORTH_EMPIRE,false);
@@ -69,9 +69,9 @@ class WeatherBoardTest {
         int expectedPower = 22;
 
         // when
-        WeatherBoard.addWeatherCard(rainCard);
-        WeatherBoard.addWeatherCard(fogCard);
-        WeatherBoard.addWeatherCard(sunCard);
+        Game.getGameInstance().getWeatherBoard().addWeatherCard(rainCard);
+        Game.getGameInstance().getWeatherBoard().addWeatherCard(fogCard);
+        Game.getGameInstance().getWeatherBoard().addWeatherCard(sunCard);
 
         // then
         assertEquals(expectedPower, player.getTotalScore());

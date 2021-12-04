@@ -31,8 +31,8 @@ class NorthEmpireTest {
     @Test
     void applyEffect() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        Game.getGameInstance().reloadPlayer(new Player("Player"));
+        var player = Game.getGameInstance().getPlayer();
 
         UnitCard ciri = new UnitCard(UnitType.CLOSE_COMBAT, 9, "Ciri", FactionType.NEUTRAL, true);
         UnitCard cynthia = new UnitCard(UnitType.LONG_RANGE, 7, "cynthia", FactionType.NORTH_EMPIRE, false);
@@ -65,8 +65,8 @@ class NorthEmpireTest {
     @Test
     void applyEffect_emptyDeck() {
         // setup
-        Game.createNewGame();
-        Player player = Game.getPlayer();
+        Game.getGameInstance().reloadPlayer(new Player("Player"));
+
         Faction northEmpire = new NorthEmpire();
 
         // when + then

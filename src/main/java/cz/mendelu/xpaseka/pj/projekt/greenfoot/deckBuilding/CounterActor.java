@@ -32,8 +32,8 @@ public abstract class CounterActor extends Actor {
 
         @Override
         public void act() {
-            if (counter != Game.getPlayer().getDeck().size()) {
-                counter = Game.getPlayer().getDeck().size();
+            if (counter != Game.getGameInstance().getPlayer().getDeck().size()) {
+                counter = Game.getGameInstance().getPlayer().getDeck().size();
                 if (counter < 12) {
                     updateCounter(Integer.toString(counter), new Color(222, 24, 24));
                 } else {
@@ -56,7 +56,7 @@ public abstract class CounterActor extends Actor {
 
         public int countUnitCards() {
             int numberOfUnitCards = 0;
-            for (Card card : Game.getPlayer().getDeck()) {
+            for (Card card : Game.getGameInstance().getPlayer().getDeck()) {
                 if (card instanceof UnitCard) numberOfUnitCards++;
             }
             return numberOfUnitCards;
@@ -69,8 +69,8 @@ public abstract class CounterActor extends Actor {
 
         @Override
         public void act() {
-            if (counter != Game.getPlayer().countSpecialCards()) {
-                counter = Game.getPlayer().countSpecialCards();
+            if (counter != Game.getGameInstance().getPlayer().countSpecialCards()) {
+                counter = Game.getGameInstance().getPlayer().countSpecialCards();
                 if (counter > maxSpecialCards) {
                     updateCounter(counter + "/" + maxSpecialCards, new Color(222, 24, 24));
                 } else {
@@ -84,8 +84,8 @@ public abstract class CounterActor extends Actor {
         private int counter = 0;
         @Override
         public void act() {
-            if (counter != Game.getPlayer().countCardStrength()) {
-                counter = Game.getPlayer().countCardStrength();
+            if (counter != Game.getGameInstance().getPlayer().countCardStrength()) {
+                counter = Game.getGameInstance().getPlayer().countCardStrength();
                 updateCounter(Integer.toString(counter), Color.WHITE);
             }
         }
@@ -96,8 +96,8 @@ public abstract class CounterActor extends Actor {
 
         @Override
         public void act() {
-            if (counter != Game.getPlayer().countHeroesInDeck()) {
-                counter = Game.getPlayer().countHeroesInDeck();
+            if (counter != Game.getGameInstance().getPlayer().countHeroesInDeck()) {
+                counter = Game.getGameInstance().getPlayer().countHeroesInDeck();
                 updateCounter(Integer.toString(counter), Color.WHITE);
             }
         }

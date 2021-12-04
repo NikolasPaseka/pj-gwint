@@ -28,9 +28,10 @@ public class SpyCard extends UnitCard {
      */
     public void applyCard() {
         System.out.println(name);
-        Game.getOpponent().addCardToCombatBoard(this);
+        var opponent = Game.getGameInstance().getOpponent();
+        opponent.addCardToCombatBoard(this);
 
-        Player player = Game.getPlayer();
+        Player player = Game.getGameInstance().getPlayer();
         var deck = player.getDeck();
 
         if (deck.size() >= 2) {

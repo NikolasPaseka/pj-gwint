@@ -25,7 +25,7 @@ public class DeckBuildingWorld extends World {
         super(1600, 900, 1, false);
         setBackground("images/background-deckBuilding.png");
 
-        player = Game.getPlayer();
+        player = Game.getGameInstance().getPlayer();
         cardCollection = Game.buildDeck(player);
 
         addObject(new CardFilterButton(true, null), 280, 70);
@@ -119,6 +119,6 @@ public class DeckBuildingWorld extends World {
     }
 
     public void reloadPlayer() {
-        this.player = Game.getPlayer();
+        this.player = Game.getGameInstance().getPlayer();
     }
 }

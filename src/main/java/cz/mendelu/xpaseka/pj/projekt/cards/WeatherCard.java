@@ -1,5 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt.cards;
 
+import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.WeatherBoard;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.WeatherType;
 
@@ -38,7 +39,8 @@ public class WeatherCard extends Card {
 
     @Override
     public void applyCard() {
-        WeatherBoard.addWeatherCard(this);
+        var weatherBoard = Game.getGameInstance().getWeatherBoard();
+        weatherBoard.addWeatherCard(this);
     }
 
     public WeatherType getWeatherType() {

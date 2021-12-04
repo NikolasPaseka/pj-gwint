@@ -25,11 +25,11 @@ public class CardButtonActor extends Actor {
         if (Greenfoot.mouseClicked(this)) {
             decoy.setUnitType(unitType);
             decoy.setIndex(index);
-            Game.getPlayer().playCard(indexHand);
+            Game.getGameInstance().getPlayer().playCard(indexHand);
 
             ((GwintWorld) getWorld()).setPlayableHand(true);
 
-            ((GwintWorld) getWorld()).updateHand(Game.getPlayer().getHand());
+            ((GwintWorld) getWorld()).updateHand(Game.getGameInstance().getPlayer().getHand());
             ((GwintWorld) getWorld()).updateCombatBoard();
             getWorld().removeObjects(getWorld().getObjects(CardButtonActor.class));
         }

@@ -115,7 +115,7 @@ public class UnitCard extends Card {
     @Override
     public void applyCard() {
         System.out.println(name);
-        Game.getPlayer().addCardToCombatBoard(this);
+        Game.getGameInstance().getPlayer().addCardToCombatBoard(this);
     }
 
     public void removeEffect() {

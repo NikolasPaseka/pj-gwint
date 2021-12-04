@@ -1,5 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
 
+import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.Player;
 import greenfoot.Actor;
 import greenfoot.GreenfootImage;
@@ -7,17 +8,19 @@ import greenfoot.GreenfootImage;
 import java.awt.*;
 
 public class DeckCounterActor extends Actor {
-    private final Player player;
+    private final PlayerEnum player;
     private int counter = 0;
 
-    DeckCounterActor(Player player) {
+    DeckCounterActor(PlayerEnum player) {
         this.player = player;
     }
 
     @Override
     public void act() {
-        if (counter != player.getDeck().size()) {
-            counter = player.getDeck().size();
+        Player p;
+        p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        if (counter != p.getDeck().size()) {
+            counter = p.getDeck().size();
             updateCounter();
         }
     }
