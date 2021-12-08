@@ -47,6 +47,7 @@ public class ScorchCard extends UnitCard {
             while (iterator.hasNext()) {
                 var card = iterator.next();
                 if (card.getCurrentPower() == maxPower) {
+                    card.removeEffect();
                     opponent.addCardToDiscardPile(card);
                     iterator.remove();
                 }

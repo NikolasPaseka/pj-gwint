@@ -28,13 +28,17 @@ public class DiscardPileActor extends Actor {
 
     private void updateDiscardPile() {
         var p = (PlayerEnum.PLAYER == player) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
-        var card = p.getDiscardPile().get(p.getDiscardPile().size()-1);
-        if (card instanceof UnitCard) {
-            setImage(String.format("images/cards/HD+/%s/%s.jpg", ((UnitCard) card).getFaction().name(), card.getName()));
+        if (p.getDiscardPile().size() > 0) {
+            var card = p.getDiscardPile().get(p.getDiscardPile().size() - 1);
+            if (card instanceof UnitCard) {
+                setImage(String.format("images/cards/HD+/%s/%s.jpg", ((UnitCard) card).getFaction().name(), card.getName()));
+            } else {
+                setImage(String.format("images/cards/HD+/%s.jpg", card.getName()));
+            }
+            setPower();
         } else {
-            setImage(String.format("images/cards/HD+/%s.jpg", card.getName()));
+            setTransparentImage();
         }
-        setPower();
     }
 
     public void setPower() {

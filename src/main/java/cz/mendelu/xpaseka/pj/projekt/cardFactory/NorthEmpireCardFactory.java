@@ -37,7 +37,7 @@ public class NorthEmpireCardFactory implements CardFactory {
         northEmpireCards.add(new UnitCard(UnitType.CLOSE_COMBAT,1, "Redanian Foot Soldier", FactionType.NORTH_EMPIRE,false));
         northEmpireCards.add(new TightBondCard(UnitType.SIEGE,1, "Catapult", FactionType.NORTH_EMPIRE,false));
         northEmpireCards.add(new UnitCard(UnitType.SIEGE,6, "Ballista", FactionType.NORTH_EMPIRE,false));
-        northEmpireCards.add(new UnitCard(UnitType.SIEGE,1, "Kaedweni Siege Expert", FactionType.NORTH_EMPIRE,false)); //TODO morale card
+        northEmpireCards.add(new MoraleCard(UnitType.SIEGE,1, "Kaedweni Siege Expert", FactionType.NORTH_EMPIRE,false));
         northEmpireCards.add(new TightBondCard(UnitType.CLOSE_COMBAT,4, "Blue Stripes Commando", FactionType.NORTH_EMPIRE,false));
         northEmpireCards.add(new UnitCard(UnitType.SIEGE,6, "Siege Tower", FactionType.NORTH_EMPIRE,false));
         northEmpireCards.add(new MedicCard(UnitType.SIEGE,5, "Dun Banner Medic", FactionType.NORTH_EMPIRE,false));

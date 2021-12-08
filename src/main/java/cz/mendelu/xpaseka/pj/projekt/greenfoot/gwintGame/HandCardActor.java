@@ -62,13 +62,16 @@ public class HandCardActor extends Actor {
             getWorld().addObject(new HornButtonActor(index, UnitType.LONG_RANGE), 447, 575);
             getWorld().addObject(new HornButtonActor(index, UnitType.SIEGE), 447, 685);
             ((GwintWorld) getWorld()).setPlayableHand(false);
+            getWorld().addObject(new CancelMoveActor(), 1450, 490);
         } else if (card instanceof AgileCard) {
             getWorld().addObject(new UnitTypeButtonActor((AgileCard) card, index, ((AgileCard) card).getType()), 0, 0);
             getWorld().addObject(new UnitTypeButtonActor((AgileCard) card, index, ((AgileCard) card).getSecondUnitType()), 0, 0);
             ((GwintWorld) getWorld()).setPlayableHand(false);
+            getWorld().addObject(new CancelMoveActor(), 1450, 490);
         } else if (card instanceof DecoyCard) {
             ((GwintWorld) getWorld()).renderUnitCardButtons((DecoyCard) card, index);
             ((GwintWorld) getWorld()).setPlayableHand(false);
+            getWorld().addObject(new CancelMoveActor(), 1450, 490);
         } else {
             player.playCard(index);
         }

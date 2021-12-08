@@ -28,17 +28,12 @@ public class LoadMenuWorld extends World {
     }
 
     private void renderLoads() {
-        var loadFiles = new File("saves").list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.matches(".*[.]player");
-            }
-        });
+        var loadFiles = new File("saves").list((dir, name) -> name.matches(".*[.]player"));
+        int coorY = 100;
         if (loadFiles != null) {
-            int coorY = 100;
             for (String loadFile : loadFiles) {
 //                System.out.println(loadFile.split("[.]")[0]);
-                addObject(new LoadBuildButton(loadFile.split("[.]")[0]), 800, coorY+=100);
+                addObject(new LoadBuildButton(loadFile.split("[.]")[0]), 800, coorY += 100);
             }
         }
     }

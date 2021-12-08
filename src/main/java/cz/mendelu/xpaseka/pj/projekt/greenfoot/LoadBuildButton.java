@@ -15,9 +15,8 @@ public class LoadBuildButton extends Actor {
         this.buildName = buildName;
         //setImage(new GreenfootImage(buildName, 20, Color.WHITE, null));
         setImage("images/Buttons/button_active.png");
-        getImage().setFont(getImage().getFont().deriveFont(18f));
-        getImage().setColor(Color.WHITE);
-        getImage().drawString(buildName, 15,32);
+        var text = new GreenfootImage(buildName, 20, Color.WHITE, null);
+        getImage().drawImage(text, getImage().getWidth()/2-text.getWidth()/2, getImage().getHeight()/2-text.getHeight()/2);
     }
 
     @Override

@@ -1,10 +1,7 @@
 package cz.mendelu.xpaseka.pj.projekt;
 
-import cz.mendelu.xpaseka.pj.projekt.cards.HornCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.MoraleCard;
-import cz.mendelu.xpaseka.pj.projekt.cards.WeatherCard;
+import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
-import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.factions.Monsters;
 
 import java.io.Serializable;
@@ -63,7 +60,11 @@ public class CombatBoard implements Serializable {
                 var cards = unitCards.get(unitType);
                 for (UnitCard card : cards) {
                     if (!card.isHero()) {
-                        card.setPowerMultiplicator(2);
+                        if (card instanceof TightBondCard) {
+                            card.setPowerMultiplicator(((TightBondCard) card).getNumberOfBondCards()*2);
+                        } else {
+                            card.setPowerMultiplicator(2);
+                        }
                     }
                 }
             }
@@ -71,11 +72,11 @@ public class CombatBoard implements Serializable {
     }
 
     private void applyMoraleEffect(UnitCard card) {
-        boolean isMoraleCard = false;
+        int numberOfMoraleCards = 0;
         for (var c: unitCards.get(card.getType())) {
-            if (c instanceof MoraleCard) isMoraleCard = true;
+            if (c instanceof MoraleCard) numberOfMoraleCards++;
         }
-        if (isMoraleCard && !(card instanceof MoraleCard)) card.setCurrentPower(card.getCurrentPower() + 1);
+        if ((card instanceof MoraleCard)) card.setCurrentPower(card.getCurrentPower() + numberOfMoraleCards);
     }
 
     /**

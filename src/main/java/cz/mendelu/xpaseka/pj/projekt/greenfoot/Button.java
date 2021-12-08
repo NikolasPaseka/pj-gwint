@@ -6,6 +6,7 @@ import cz.mendelu.xpaseka.pj.projekt.greenfoot.factionSelection.FactionChoiceWor
 import cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.GwintWorld;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
+import greenfoot.GreenfootImage;
 
 import java.awt.*;
 
@@ -17,6 +18,11 @@ public abstract class Button extends Actor {
     public abstract void act();
     public abstract void setActive(boolean active);
     public abstract void updateImage();
+
+    public void setText(String text) {
+        var textImg = new GreenfootImage(text, 22, Color.WHITE, null);
+        getImage().drawImage(textImg, getImage().getWidth()/2-textImg.getWidth()/2, getImage().getHeight()/2-textImg.getHeight()/2);
+    }
 
     public static Button createNewBuildButton = new Button() {
         @Override
@@ -34,9 +40,7 @@ public abstract class Button extends Actor {
         @Override
         public void updateImage() {
             setImage("images/Buttons/button_active.png");
-            getImage().setFont(getImage().getFont().deriveFont(18f));
-            getImage().setColor(Color.WHITE);
-            getImage().drawString("Create new build", 21,32);
+            setText("Create new build");
         }
     };
 
@@ -56,9 +60,7 @@ public abstract class Button extends Actor {
         @Override
         public void updateImage() {
             setImage("images/Buttons/button_active.png");
-            getImage().setFont(getImage().getFont().deriveFont(18f));
-            getImage().setColor(Color.WHITE);
-            getImage().drawString("How to play", 40,32);
+            setText("How to play");
         }
     };
 
@@ -78,9 +80,7 @@ public abstract class Button extends Actor {
         @Override
         public void updateImage() {
             setImage("images/Buttons/button_active.png");
-            getImage().setFont(getImage().getFont().deriveFont(18f));
-            getImage().setColor(Color.WHITE);
-            getImage().drawString("Main menu", 30,32);
+            setText("Main menu");
         }
     };
 
@@ -143,9 +143,7 @@ public abstract class Button extends Actor {
         @Override
         public void updateImage() {
             setImage("images/Buttons/button_active.png");
-            getImage().setFont(getImage().getFont().deriveFont(18f));
-            getImage().setColor(Color.WHITE);
-            getImage().drawString("Load build", 46,32);
+            setText("Load build");
         }
 
         @Override

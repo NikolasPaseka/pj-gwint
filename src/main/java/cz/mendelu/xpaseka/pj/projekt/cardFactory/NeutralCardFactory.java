@@ -22,7 +22,7 @@ public class NeutralCardFactory implements CardFactory {
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 6, "Vesemir", FactionType.NEUTRAL,false));
         neutralCards.add(new MedicCard(UnitType.LONG_RANGE, 7, "Yennefer of Vengerberg", FactionType.NEUTRAL,true));
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 7, "Triss Merigold", FactionType.NEUTRAL,true));
-        neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 2, "Dandelion", FactionType.NEUTRAL,false)); //TODO morale card
+        neutralCards.add(new MoraleCard(UnitType.CLOSE_COMBAT, 2, "Dandelion", FactionType.NEUTRAL,false));
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 5, "Zoltan Chivay", FactionType.NEUTRAL,false));
         neutralCards.add(new UnitCard(UnitType.CLOSE_COMBAT, 5, "Emiel Regis Rohellec Terzieff", FactionType.NEUTRAL,false));
         neutralCards.add(new ScorchCard(UnitType.CLOSE_COMBAT, 7, "Villentretenmerth", FactionType.NEUTRAL,false));

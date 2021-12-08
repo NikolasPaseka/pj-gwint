@@ -8,8 +8,10 @@ import cz.mendelu.xpaseka.pj.projekt.cards.UnitCard;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
 import cz.mendelu.xpaseka.pj.projekt.greenfoot.Button;
 import greenfoot.Actor;
+import greenfoot.GreenfootImage;
 import greenfoot.World;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +19,12 @@ public class DeckBuildingWorld extends World {
     private Player player;
     private List<Card> cardCollection = new ArrayList<>();
     private int deckSize = 0;
+    private int currentDeckPage = 1;
     private UnitType filter = UnitType.CLOSE_COMBAT;
     private final Button playButton = Button.playButton;
     private final Button saveButton = Button.saveButton;
+
+    public static final int cardsOnPage = 42;
 
     public DeckBuildingWorld() {
         super(1600, 900, 1, false);
@@ -43,11 +48,11 @@ public class DeckBuildingWorld extends World {
         addObject(playButton, 800, 750);
         addObject(saveButton, 800, 820);
 
-        addObject(CounterActor.DeckCounter, 800, 420);
-        addObject(CounterActor.UnitCardsCounter, 800, 500);
-        addObject(CounterActor.SpecialCardsCounter, 800, 570);
-        addObject(CounterActor.UnitCardsStrengthCounter, 800, 640);
-        addObject(CounterActor.HeroCardsCounter, 800, 700);
+        addObject(CounterActor.DeckCounter, 800, 405);
+        addObject(CounterActor.UnitCardsCounter, 800, 480);
+        addObject(CounterActor.SpecialCardsCounter, 800, 560);
+        addObject(CounterActor.UnitCardsStrengthCounter, 800, 620);
+        addObject(CounterActor.HeroCardsCounter, 800, 690);
 
         updateCardCollection(filter);
     }
@@ -56,6 +61,7 @@ public class DeckBuildingWorld extends World {
     public void act() {
         if (deckSize != player.getDeck().size()) {
             deckSize = player.getDeck().size();
+            if (deckSize / cardsOnPage >= 1 && deckSize % cardsOnPage == 1) currentDeckPage++;
             updateCards();
         }
 
@@ -100,18 +106,38 @@ public class DeckBuildingWorld extends World {
 
     public void updateDeck() {
         var cards = player.getDeck();
-        int i = 0;
+        int j = 0;
         int coorX = 1020;
         int coorY = 170;
         int cardsInRow = 7;
-        for (Card card : cards) {
-            if (i == cardsInRow) {
+        renderDeckPages();
+
+        for (int i = (currentDeckPage-1)*cardsOnPage; i < (((currentDeckPage-1)*cardsOnPage)+cardsOnPage) && i < cards.size(); i++) {
+            if (j == cardsInRow) {
                 coorY += 109;
-                i = 0;
+                j = 0;
             }
-            addObject(new CardActor(card, true), coorX + (i * 79), coorY);
-            i++;
+            addObject(new CardActor(cards.get(i), true), coorX + (j * 79), coorY);
+            j++;
         }
+    }
+
+    public void renderDeckPages() {
+        removeObjects(getObjects(DeckPageActor.class));
+        int numberOfPages = (player.getDeck().size()/cardsOnPage)+1;
+        for (int i = 1; i <= numberOfPages; i++) {
+            addObject(new DeckPageActor(i), 1150 + (i*40), 70);
+        }
+        if (currentDeckPage > numberOfPages) currentDeckPage = 1;
+        getObjects(DeckPageActor.class).get(currentDeckPage-1).setClickable(false);
+    }
+
+    public void setCurrentDeckPage(int currentDeckPage) {
+        this.currentDeckPage = currentDeckPage;
+    }
+
+    public int getCurrentDeckPage() {
+        return this.currentDeckPage;
     }
 
     public void setFilter(UnitType filter) {

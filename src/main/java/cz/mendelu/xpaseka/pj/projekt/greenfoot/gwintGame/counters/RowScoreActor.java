@@ -1,4 +1,4 @@
-package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
+package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.counters;
 
 import cz.mendelu.xpaseka.pj.projekt.Player;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;

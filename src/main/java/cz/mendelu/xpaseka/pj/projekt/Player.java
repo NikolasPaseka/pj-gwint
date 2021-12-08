@@ -86,8 +86,14 @@ public class Player implements Serializable {
     }
 
     public void useLeaderAbility() {
-        leader.applyAbility();
-        usedLeaderAbility = true;
+        if (!usedLeaderAbility) {
+            leader.applyAbility();
+            usedLeaderAbility = true;
+            if (!Game.getGameInstance().getOpponent().getFinishedRound()) {
+                Game.getGameInstance().switchPlayerOnMove();
+            }
+            Network.getClient().sent();
+        }
     }
 
     public int getLifes() {

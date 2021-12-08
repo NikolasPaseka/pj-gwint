@@ -10,19 +10,21 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
-    String ipAddressOpponent;
+    private final String ipAddressOpponent;
+    private int port;
 
     public Client(String ipAddress) {
         this.ipAddressOpponent = ipAddress;
+        this.port = Network.getServer().getPort();
+        if (ipAddressOpponent.length() == 0) {
+            System.out.println("localhost");
+            this.port = (Network.getServer().getPort() == 4444) ? 4445 : 4444;
+        }
     }
 
     public void sent() {
         try {
-            Socket s = new Socket(ipAddressOpponent, 4444);
-//            var dout = new DataOutputStream(s.getOutputStream());
-//            dout.writeUTF("Hello server");
-//            dout.flush();
-//            dout.close();
+            Socket s = new Socket(ipAddressOpponent, port);
             try (var out = new ObjectOutputStream(s.getOutputStream())) {
                 out.writeObject(Game.getGameInstance());
                 out.flush();

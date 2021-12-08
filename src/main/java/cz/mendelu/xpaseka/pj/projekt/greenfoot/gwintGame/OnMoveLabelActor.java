@@ -24,6 +24,6 @@ public class OnMoveLabelActor extends Actor {
     }
 
     public void update() {
-        setImage(new GreenfootImage(onMove.name(), 35, Color.WHITE, null));
+        setImage(new GreenfootImage("On Move:\n" + onMove.name(), 35, Color.WHITE, null));
     }
 }

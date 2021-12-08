@@ -25,19 +25,19 @@ public class WeatherEffectActor extends Actor {
     public void render() {
         if (board == PlayerEnum.PLAYER) {
             if (weatherType == WeatherType.FROST) {
-                setLocation(917, 465);
+                setLocation(914, 465);
             } else if (weatherType == WeatherType.FOG) {
-                setLocation(917, 578);
+                setLocation(914, 578);
             } else if (weatherType == WeatherType.RAIN) {
-                setLocation(917, 693);
+                setLocation(914, 693);
             }
         } else {
             if (weatherType == WeatherType.FROST) {
-                setLocation(917, 320);
+                setLocation(914, 322);
             } else if (weatherType == WeatherType.FOG) {
-                setLocation(917, 200);
+                setLocation(914, 210);
             } else if (weatherType == WeatherType.RAIN) {
-                setLocation(917, 95);
+                setLocation(914, 95);
             }
         }
         rendered = true;

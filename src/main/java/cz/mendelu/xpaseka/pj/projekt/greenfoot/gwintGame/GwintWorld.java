@@ -3,7 +3,9 @@ package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
 import cz.mendelu.xpaseka.pj.projekt.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.*;
 import cz.mendelu.xpaseka.pj.projekt.cards.enumTypes.UnitType;
-import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
+import cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.counters.DeckCounterActor;
+import cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.counters.HandCounterActor;
+import cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.counters.ScoreActor;
 import cz.mendelu.xpaseka.pj.projekt.network.Network;
 import greenfoot.Actor;
 import greenfoot.Greenfoot;
@@ -74,8 +76,8 @@ public class GwintWorld extends World {
         positionsPlayer.put(UnitType.LONG_RANGE, new Position(542, 578));
         positionsPlayer.put(UnitType.SIEGE, new Position(542, 693));
 
-        positionsOpponent.put(UnitType.CLOSE_COMBAT, new Position(542, 320));
-        positionsOpponent.put(UnitType.LONG_RANGE, new Position(542, 200));
+        positionsOpponent.put(UnitType.CLOSE_COMBAT, new Position(542, 322));
+        positionsOpponent.put(UnitType.LONG_RANGE, new Position(542, 210));
         positionsOpponent.put(UnitType.SIEGE, new Position(542, 95));
 
         boardSizes.put(BoardType.HAND, 0);
@@ -86,11 +88,7 @@ public class GwintWorld extends World {
 
     private void renderActors() {
         // Leader card render
-        addObject(new Actor() {
-            {
-                setImage(String.format("images/Leaders/%s/%s.png", player.getFaction().getName(), player.getLeader().getName()));
-            }
-        }, 196, 749);
+        addObject(new LeaderActor(player.getFaction(), player.getLeader()), 196, 749);
 
         // faction logo render
         addObject(new Actor() {
@@ -106,6 +104,9 @@ public class GwintWorld extends World {
         addObject(new LifeActor(PlayerEnum.OPPONENT, 2), 255, 265);
         addObject(new LifeActor(PlayerEnum.OPPONENT, 1), 290, 265);
 
+        addObject(new HandCounterActor(PlayerEnum.PLAYER), 160, 625);
+        addObject(new HandCounterActor(PlayerEnum.OPPONENT), 160, 310);
+
         addObject(new FinishedPlayingActor(PlayerEnum.PLAYER), 100, 760);
         addObject(new FinishedPlayingActor(PlayerEnum.OPPONENT), 100, 160);
 
@@ -114,17 +115,20 @@ public class GwintWorld extends World {
 
         // addObject(new RowScoreActor(Game.getPlayer(), UnitType.CLOSE_COMBAT), 120, 600);
 
-        addObject(new DeckActor(player), 1435, 611);
-        addObject(new DeckActor(opponent), 1435, 285);
-        addObject(new DeckCounterActor(PlayerEnum.PLAYER), 1510, 611);
+        addObject(new DeckActor(PlayerEnum.PLAYER), 1435, 611);
+        addObject(new DeckActor(PlayerEnum.OPPONENT), 1435, 285);
+        addObject(new DeckCounterActor(PlayerEnum.PLAYER), 1500, 611);
         addObject(new DeckCounterActor(PlayerEnum.OPPONENT), 1500, 285);
 
-        addObject(new DiscardPileActor(PlayerEnum.PLAYER), 1450, 800);
-        addObject(new DiscardPileActor(PlayerEnum.OPPONENT), 1450, 115);
+        addObject(new DiscardPileActor(PlayerEnum.PLAYER), 1435, 770);
+        addObject(new DiscardPileActor(PlayerEnum.OPPONENT), 1435, 128);
 
-        addObject(new OnMoveLabelActor(Game.getGameInstance().getPlayerOnMove()), 250, 400);
+        addObject(new OnMoveLabelActor(Game.getGameInstance().getPlayerOnMove()), 1450, 420);
 
-        setPaintOrder(CardButtonActor.class, UnitTypeButtonActor.class, WeatherEffectActor.class, BoardCardActor.class);
+        addObject(new LeaderAbilityActor(), 300, 850);
+        addObject(new FinishRoundButtonActor(), 100, 850);
+
+        setPaintOrder(SubMenuActor.class, CardButtonActor.class, UnitTypeButtonActor.class, WeatherEffectActor.class, BoardCardActor.class);
     }
 
     private void setUpIPAddress() {
@@ -147,22 +151,18 @@ public class GwintWorld extends World {
         renderNetworkChanges();
         renderObjects();
 
-        if (Greenfoot.isKeyDown("x")) {
-            player.useLeaderAbility();
-        }
-
-        if ((Greenfoot.isKeyDown("space") && !finishedRound && Game.getGameInstance().getPlayerOnMove() == PlayerEnum.PLAYER)
-            || (player.getHand().size() <= 0 && !finishedRound)) {
-            player.setFinishedRound(true);
-            Game.getGameInstance().setPlayerOnMove(PlayerEnum.OPPONENT);
-            Network.getClient().sent();
-            finishedRound = true;
-            System.out.println("You ended round");
-        }
-
         if (player.getFinishedRound() && opponent.getFinishedRound()) {
+            var submenu = new SubMenuActor();
+            addObject(submenu, 800, 400);
+            if (player.getTotalScore() > opponent.getTotalScore()) {
+                submenu.showEndRound(PlayerEnum.PLAYER);
+            } else if (player.getTotalScore() < opponent.getTotalScore()) {
+                submenu.showEndRound(PlayerEnum.OPPONENT);
+            } else {
+                submenu.showEndRound(null);
+            }
             Game.getGameInstance().startNewRound();
-            finishedRound = false;
+            getObjects(FinishRoundButtonActor.class).get(0).resetFinishedRound();
         }
     }
 
@@ -173,11 +173,7 @@ public class GwintWorld extends World {
             opponentConnected = true;
             opponent = Game.getGameInstance().getOpponent();
             // Leader opponent card render
-            addObject(new Actor() {
-                {
-                    setImage(String.format("images/Leaders/%s/%s.png", opponent.getFaction().getName(), opponent.getLeader().getName()));
-                }
-            }, 196, 148);
+            addObject(new LeaderActor(opponent.getFaction(), opponent.getLeader()), 196, 148);
 
             // faction opponent logo render
             addObject(new Actor() {
@@ -185,6 +181,9 @@ public class GwintWorld extends World {
                     setImage(String.format("images/factionLogos/smaller/%s.png", opponent.getFaction().getName()));
                 }
             }, 60, 290);
+
+            getObjects(DeckActor.class).get(0).setDeckImage();
+            getObjects(DeckActor.class).get(1).setDeckImage();
         }
 
         // Check players change
@@ -281,11 +280,15 @@ public class GwintWorld extends World {
     }
 
     public void updateCombat(Map<UnitType, List<UnitCard>> board, Map<UnitType, Position> positions) {
+        int cardOffset = 79;
         for (List<UnitCard> cards : board.values()) {
             int i = 0;
+            if (cards.size() >= 10) {
+                cardOffset = 790 / cards.size();
+            }
             for (UnitCard card : cards) {
                 var position = positions.get(card.getType());
-                addObject(new BoardCardActor(card, i), position.x + (i * 79), position.y);
+                addObject(new BoardCardActor(card, i), position.x + (i * cardOffset), position.y);
                 i++;
             }
         }
@@ -307,14 +310,11 @@ public class GwintWorld extends World {
     }
 
     private void renderHornCards(Player player, Map<UnitType, Position> positions) {
+        removeObjects(getObjects(HornActor.class));
         for (var hornsMap: player.getCombatBoard().getHornCards().entrySet()) {
             if (hornsMap.getValue() != null) {
                 var position = positions.get(hornsMap.getKey());
-                addObject(new Actor() {
-                    {
-                        setImage("images/cards/HD+/Commander's Horn.jpg");
-                    }
-                }, position.x - 100, position.y);
+                addObject(new HornActor(), position.x - 100, position.y);
             }
         }
     }
@@ -331,6 +331,8 @@ public class GwintWorld extends World {
     }
 
     public void setPlayableHand(boolean playableHand) {
+        removeObjects(getObjects(CancelMoveActor.class));
+
         var hand = getObjects(HandCardActor.class);
         for (var card: hand) {
             card.setPlayable(playableHand);

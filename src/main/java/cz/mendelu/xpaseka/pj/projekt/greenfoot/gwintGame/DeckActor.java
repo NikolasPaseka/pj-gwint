@@ -1,5 +1,6 @@
 package cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame;
 
+import cz.mendelu.xpaseka.pj.projekt.Game;
 import cz.mendelu.xpaseka.pj.projekt.Player;
 import cz.mendelu.xpaseka.pj.projekt.cards.Card;
 import greenfoot.Actor;
@@ -16,25 +17,27 @@ import java.util.List;
  */
 
 public class DeckActor extends Actor {
-    private final Player player;
+    private final PlayerEnum player;
     private boolean imageSet = false;
 
-    DeckActor(Player player) {
+    DeckActor(PlayerEnum player) {
         this.player = player;
         setTransparentImage();
     }
 
     @Override
     public void act() {
-        if (player.getDeck().size() > 0 && !imageSet) {
+        var p = (player == PlayerEnum.PLAYER) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        if (p.getDeck().size() > 0 && !imageSet) {
             setDeckImage();
-        } else if (player.getDeck().size() <= 0 && imageSet) {
+        } else if (p.getDeck().size() <= 0 && imageSet) {
             setTransparentImage();
         }
     }
 
     public void setDeckImage() {
-        setImage(String.format("images/cards/HD+/Back side/%s.jpg", player.getFaction().getName()));
+        var p = (player == PlayerEnum.PLAYER) ? Game.getGameInstance().getPlayer() : Game.getGameInstance().getOpponent();
+        setImage(String.format("images/cards/HD+/Back side/%s.jpg", p.getFaction().getName()));
         imageSet = true;
     }
 

@@ -32,18 +32,24 @@ public class TightBondCard extends UnitCard {
         Player player = Game.getGameInstance().getPlayer();
         var row = player.getCombatBoard().getRow(this.type);
 
+        if (getNumberOfBondCards() > 1) {
+            for (UnitCard card : row) {
+                if (card.equals(this)) {
+                    card.setPowerMultiplicator(getNumberOfBondCards());
+                }
+            }
+        }
+    }
+
+    public int getNumberOfBondCards() {
+        Player player = Game.getGameInstance().getPlayer();
+        var row = player.getCombatBoard().getRow(this.type);
         int numberOfSameCards = 0;
         for (UnitCard card : row) {
             if (card.equals(this)) {
                 numberOfSameCards++;
             }
         }
-        if (numberOfSameCards > 1) {
-            for (UnitCard card : row) {
-                if (card.equals(this)) {
-                    card.setPowerMultiplicator(numberOfSameCards);
-                }
-            }
-        }
+        return numberOfSameCards;
     }
 }

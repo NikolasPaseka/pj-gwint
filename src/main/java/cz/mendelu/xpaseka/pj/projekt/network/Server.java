@@ -4,23 +4,26 @@ import cz.mendelu.xpaseka.pj.projekt.Game;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server extends Thread {
     private boolean opponentConnected = false;
+    private boolean serverRunning = false;
+
+    private int port = 4444;
 
     @Override
     public void run() {
+        assignPort();
         try {
-            ServerSocket ss = new ServerSocket(4444);
-            System.out.println("Server run on port 4444");
+            ServerSocket ss = new ServerSocket(port);
+            System.out.println("Server run on port " + port);
+            serverRunning = true;
             while (!isInterrupted()) {
                 Socket cs = ss.accept();
                 System.out.println("Client accepted: " + cs);
-//                var dis = new DataInputStream(cs.getInputStream());
-//                String str = dis.readUTF();
-//                System.out.println(str);
                 try (var in = new ObjectInputStream(cs.getInputStream())) {
                     var game = (Game) in.readObject();
 
@@ -45,5 +48,22 @@ public class Server extends Thread {
 
     public boolean getConnected() {
         return opponentConnected;
+    }
+
+    public boolean isServerRunning() {
+        return serverRunning;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void assignPort() {
+        try {
+            ServerSocket ss = new ServerSocket(4444);
+            ss.close();
+        } catch (IOException e) {
+            port = 4445;
+        }
     }
 }
