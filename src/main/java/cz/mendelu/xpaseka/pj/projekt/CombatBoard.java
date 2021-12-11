@@ -76,7 +76,7 @@ public class CombatBoard implements Serializable {
         for (var c: unitCards.get(card.getType())) {
             if (c instanceof MoraleCard) numberOfMoraleCards++;
         }
-        if ((card instanceof MoraleCard)) card.setCurrentPower(card.getCurrentPower() + numberOfMoraleCards);
+        if (!(card instanceof MoraleCard) && !card.isHero()) card.setCurrentPower(card.getCurrentPower() + numberOfMoraleCards);
     }
 
     /**

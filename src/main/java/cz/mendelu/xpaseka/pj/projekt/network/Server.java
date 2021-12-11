@@ -41,6 +41,7 @@ public class Server extends Thread {
                     } else opponentConnected = true;
                 }
             }
+            serverRunning = false;
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

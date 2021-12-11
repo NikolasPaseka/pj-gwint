@@ -29,11 +29,18 @@ public class LoadMenuWorld extends World {
 
     private void renderLoads() {
         var loadFiles = new File("saves").list((dir, name) -> name.matches(".*[.]player"));
-        int coorY = 100;
         if (loadFiles != null) {
+            int coorY = 100;
+            int i = 0;
+            int columns = (loadFiles.length / 7);
+            int coorX = 800 - columns*200;
             for (String loadFile : loadFiles) {
-//                System.out.println(loadFile.split("[.]")[0]);
-                addObject(new LoadBuildButton(loadFile.split("[.]")[0]), 800, coorY += 100);
+                if (i == 6) {
+                    coorY = 100;
+                    coorX += 200;
+                }
+                addObject(new LoadBuildButton(loadFile.split("[.]")[0]), coorX, coorY += 100);
+                i++;
             }
         }
     }

@@ -21,7 +21,9 @@ public class FinishRoundButtonActor extends Actor {
         if ((Greenfoot.mouseClicked(this) && !finishedRound && Game.getGameInstance().getPlayerOnMove() == PlayerEnum.PLAYER)
                 || (player.getHand().size() <= 0 && !finishedRound)) {
             player.setFinishedRound(true);
-            Game.getGameInstance().setPlayerOnMove(PlayerEnum.OPPONENT);
+            if (!Game.getGameInstance().getOpponent().getFinishedRound()) {
+                Game.getGameInstance().setPlayerOnMove(PlayerEnum.OPPONENT);
+            }
             Network.getClient().sent();
             finishedRound = true;
             System.out.println("You ended round");

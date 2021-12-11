@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class Client {
-    private final String ipAddressOpponent;
+    private String ipAddressOpponent;
     private int port;
 
     public Client(String ipAddress) {
@@ -18,6 +18,7 @@ public class Client {
         this.port = Network.getServer().getPort();
         if (ipAddressOpponent.length() == 0) {
             System.out.println("localhost");
+            ipAddressOpponent = "127.0.0.1";
             this.port = (Network.getServer().getPort() == 4444) ? 4445 : 4444;
         }
     }

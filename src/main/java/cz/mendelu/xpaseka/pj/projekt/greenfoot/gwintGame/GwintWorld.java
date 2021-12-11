@@ -153,15 +153,15 @@ public class GwintWorld extends World {
 
         if (player.getFinishedRound() && opponent.getFinishedRound()) {
             var submenu = new SubMenuActor();
-            addObject(submenu, 800, 400);
-            if (player.getTotalScore() > opponent.getTotalScore()) {
-                submenu.showEndRound(PlayerEnum.PLAYER);
-            } else if (player.getTotalScore() < opponent.getTotalScore()) {
-                submenu.showEndRound(PlayerEnum.OPPONENT);
+            addObject(submenu, 800, 450);
+            var winner = Game.getGameInstance().startNewRound();
+            if (player.getLifes() <= 0 || opponent.getLifes() <= 0) {
+                submenu.showEndGame(winner);
+                Greenfoot.stop();
+                return;
             } else {
-                submenu.showEndRound(null);
+                submenu.showEndRound(winner);
             }
-            Game.getGameInstance().startNewRound();
             getObjects(FinishRoundButtonActor.class).get(0).resetFinishedRound();
         }
     }
@@ -216,11 +216,11 @@ public class GwintWorld extends World {
         // Horn cards check
         if (countHorns(player) != playersHorns) {
             playersHorns = countHorns(player);
-            renderHornCards(player, positionsPlayer);
+            renderHornCards();
         }
         if (countHorns(opponent) != opponentsHorns) {
             opponentsHorns = countHorns(opponent);
-            renderHornCards(opponent, positionsOpponent);
+            renderHornCards();
         }
 
         // CombatBoard check
@@ -309,11 +309,18 @@ public class GwintWorld extends World {
         }
     }
 
-    private void renderHornCards(Player player, Map<UnitType, Position> positions) {
+    private void renderHornCards() {
         removeObjects(getObjects(HornActor.class));
         for (var hornsMap: player.getCombatBoard().getHornCards().entrySet()) {
             if (hornsMap.getValue() != null) {
-                var position = positions.get(hornsMap.getKey());
+                var position = positionsPlayer.get(hornsMap.getKey());
+                addObject(new HornActor(), position.x - 100, position.y);
+            }
+        }
+
+        for (var hornsMap: opponent.getCombatBoard().getHornCards().entrySet()) {
+            if (hornsMap.getValue() != null) {
+                var position = positionsOpponent.get(hornsMap.getKey());
                 addObject(new HornActor(), position.x - 100, position.y);
             }
         }

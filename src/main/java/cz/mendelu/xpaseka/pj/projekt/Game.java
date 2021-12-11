@@ -8,11 +8,14 @@ import cz.mendelu.xpaseka.pj.projekt.factions.Nilfgaard;
 import cz.mendelu.xpaseka.pj.projekt.factions.NorthEmpire;
 import cz.mendelu.xpaseka.pj.projekt.factions.Scoiatel;
 import cz.mendelu.xpaseka.pj.projekt.greenfoot.gwintGame.PlayerEnum;
+import cz.mendelu.xpaseka.pj.projekt.network.Network;
+import org.w3c.dom.Node;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Game implements Serializable {
@@ -48,6 +51,7 @@ public class Game implements Serializable {
     }
 
     public void switchPlayerOnMove() {
+        System.out.println("switch");
         playerOnMove = (playerOnMove == PlayerEnum.PLAYER) ? PlayerEnum.OPPONENT : PlayerEnum.PLAYER;
     }
 
@@ -70,18 +74,30 @@ public class Game implements Serializable {
         weatherBoard = w;
     }
 
-    public void startNewRound(){
-        PlayerEnum loser;
+
+    /**
+     * Vyhodnoti konec kole, odecte zivoty
+     *
+     * @return hrace, ktery zvitezil
+     */
+    public PlayerEnum startNewRound(){
+        PlayerEnum winner;
         if ((player.getTotalScore() > opponent.getTotalScore())) {
             System.out.println("You won this round");
             opponent.decreaseLife();
-            loser = PlayerEnum.OPPONENT;
-        } else {
+            winner = PlayerEnum.PLAYER;
+            setPlayerOnMove(PlayerEnum.OPPONENT);
+        } else if ((player.getTotalScore() < opponent.getTotalScore())) {
             System.out.println("You lost this round");
             player.decreaseLife();
-            loser = PlayerEnum.PLAYER;
+            winner = PlayerEnum.OPPONENT;
+            setPlayerOnMove(PlayerEnum.PLAYER);
+        } else {
+            System.out.println("Its a tie");
+            player.decreaseLife();
+            opponent.decreaseLife();
+            winner = null;
         }
-        setPlayerOnMove(loser);
 
         player.getCombatBoard().clear();
         opponent.getCombatBoard().clear();
@@ -91,6 +107,8 @@ public class Game implements Serializable {
 
         //clear weatherBoard
         weatherBoard.addWeatherCard(new WeatherCard(WeatherType.SUN));
+
+        return winner;
     }
 
     /**

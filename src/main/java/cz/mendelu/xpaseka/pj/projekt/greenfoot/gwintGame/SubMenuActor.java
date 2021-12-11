@@ -27,9 +27,22 @@ public class SubMenuActor extends Actor {
         } else {
             img = new GreenfootImage("It's a tie!", 50, Color.WHITE, null);
         }
-        getImage().drawImage(img, getImage().getWidth()/2-img.getWidth()/2, getImage().getHeight()/2-50);
+        getImage().drawImage(img, getImage().getWidth()/2-img.getWidth()/2, getImage().getHeight()/2-img.getHeight()/2);
         Greenfoot.delay(300);
         getWorld().removeObjects(getWorld().getObjects(SubMenuActor.class));
+    }
+
+    public void showEndGame(PlayerEnum player) {
+        setImage("images/background.png");
+        GreenfootImage img;
+        if (player == PlayerEnum.PLAYER) {
+            img = new GreenfootImage("You won this game!", 50, Color.WHITE, null);
+        } else if (player == PlayerEnum.OPPONENT) {
+            img = new GreenfootImage("You lost this game!", 50, Color.WHITE, null);
+        } else {
+            img = new GreenfootImage("It's a tie!\nThe game is over.", 50, Color.WHITE, null);
+        }
+        getImage().drawImage(img, getImage().getWidth()/2-img.getWidth()/2, getImage().getHeight()/2-img.getHeight()/2);
     }
 
     public void showLeadersAbility(Leader factionLeader) {

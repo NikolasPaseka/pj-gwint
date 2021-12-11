@@ -34,7 +34,7 @@ public class MedicCard extends UnitCard {
         var discardPile = player.getDiscardPile();
 
         if (discardPile.size() > 0) {
-            Card card = discardPile.get(discardPile.size()-1);
+            Card card = discardPile.remove(discardPile.size()-1);
             card.applyCard();
         }
     }

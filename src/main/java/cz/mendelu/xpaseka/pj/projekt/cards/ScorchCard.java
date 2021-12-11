@@ -36,7 +36,7 @@ public class ScorchCard extends UnitCard {
 
         for (List<UnitCard> cards : opponentCards.values()) {
             for (UnitCard card : cards) {
-                if (card.getCurrentPower() > maxPower) {
+                if (card.getCurrentPower() > maxPower && !card.isHero()) {
                     maxPower = card.getCurrentPower();
                 }
             }
@@ -53,7 +53,5 @@ public class ScorchCard extends UnitCard {
                 }
             }
         }
-
-        System.out.println("discard " + opponent.getDiscardPile().size());
     }
 }

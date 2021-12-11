@@ -7,7 +7,10 @@ import greenfoot.World;
 public class MainMenuWorld extends World {
     public MainMenuWorld() {
         super(1600, 900, 1);
-        Network.createServer();
+
+        if (Network.getServer() == null) {
+            Network.createServer();
+        }
         setBackground("images/main-menu.png");
 
         addObject(Button.createNewBuildButton, 800, 600);
